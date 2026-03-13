@@ -1,0 +1,44 @@
+---
+/**
+ * Picture.astro - Optimized image component
+ *
+ * A thin wrapper around <img> that enforces good defaults:
+ * lazy loading, async decoding, explicit dimensions for CLS
+ * prevention, and consistent styling.
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className,
+  loading = 'lazy',
+  sizes,
+} = Astro.props;
+
+const classes = ['rounded-lg object-cover', className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  class={classes}
+  loading={loading}
+  decoding="async"
+  sizes={sizes}
+/>

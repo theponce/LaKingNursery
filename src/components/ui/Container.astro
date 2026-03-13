@@ -1,0 +1,29 @@
+---
+/**
+ * Container - Max-width wrapper with responsive padding.
+ *
+ * Three sizes: narrow (max-w-4xl), default (max-w-7xl), wide (max-w-screen-2xl).
+ * Supports polymorphic element via the `as` prop.
+ */
+export interface Props {
+  size?: 'default' | 'narrow' | 'wide';
+  class?: string;
+  as?: string;
+}
+
+const {
+  size = 'default',
+  class: className = '',
+  as: Tag = 'div',
+} = Astro.props;
+
+const sizeClasses: Record<string, string> = {
+  narrow: 'max-w-4xl',
+  default: 'max-w-7xl',
+  wide: 'max-w-screen-2xl',
+};
+---
+
+<Tag class:list={[sizeClasses[size], 'mx-auto px-5 sm:px-6 lg:px-8', className]}>
+  <slot />
+</Tag>

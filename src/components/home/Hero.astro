@@ -1,0 +1,69 @@
+---
+/**
+ * Hero — Full viewport hero section with gradient background,
+ * heading, tagline, dual CTAs, and star rating social proof.
+ */
+import Badge from '../ui/Badge.astro';
+import Button from '../ui/Button.astro';
+import StarRating from '../ui/StarRating.astro';
+import Container from '../ui/Container.astro';
+import { business } from '../../data/businessInfo';
+---
+
+<section
+  class="reveal relative min-h-[85vh] flex items-center bg-gradient-to-br from-sage-900 via-sage-800 to-sage-600 overflow-hidden"
+  aria-label="Welcome to La King Nursery"
+>
+  <!-- Decorative overlay pattern -->
+  <div
+    class="absolute inset-0 opacity-10"
+    style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+    aria-hidden="true"
+  ></div>
+
+  <Container class="relative z-10 py-20 md:py-28 lg:py-32">
+    <div class="max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
+      <Badge variant="gold">
+        Family-Owned Since {business.founded}
+      </Badge>
+
+      <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+        {business.tagline}
+      </h1>
+
+      <p class="text-xl md:text-2xl text-cream-200 leading-relaxed max-w-2xl">
+        Kingsville's trusted nursery &amp; landscaping experts for over {business.yearsInBusiness} years.
+        Quality plants, beautiful landscapes, and a passion for growing.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 mt-2">
+        <Button variant="cta" href="/contact/" size="lg">
+          Get a Free Quote
+        </Button>
+        <Button
+          variant="secondary"
+          href="/services/"
+          size="lg"
+          class="border-white/80 text-white hover:bg-white/10 hover:border-white"
+        >
+          Explore Our Services
+        </Button>
+      </div>
+
+      <div class="mt-4">
+        <StarRating
+          rating={business.rating}
+          count={business.reviewCount}
+          size={22}
+          class="text-white"
+        />
+      </div>
+    </div>
+  </Container>
+
+  <!-- Bottom gradient fade into next section -->
+  <div
+    class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream-50 to-transparent"
+    aria-hidden="true"
+  ></div>
+</section>

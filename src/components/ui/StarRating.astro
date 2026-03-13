@@ -1,0 +1,79 @@
+---
+/**
+ * StarRating - Visual star rating display with inline SVGs.
+ *
+ * Renders 5 star SVGs filled with gold-500 up to the rating value
+ * and bark-200 for unfilled stars. Supports half-star precision.
+ * Optionally shows a review count label.
+ */
+export interface Props {
+  rating: number;
+  count?: number;
+  showCount?: boolean;
+  class?: string;
+}
+
+const {
+  rating,
+  count,
+  showCount = true,
+  class: className = '',
+} = Astro.props;
+
+const TOTAL_STARS = 5;
+const clamped = Math.max(0, Math.min(TOTAL_STARS, rating));
+
+function starState(pos: number): 'full' | 'half' | 'empty' {
+  if (clamped >= pos) return 'full';
+  if (clamped >= pos - 0.5) return 'half';
+  return 'empty';
+}
+
+const stars = Array.from({ length: TOTAL_STARS }, (_, i) => starState(i + 1));
+const uid = `sr-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div
+  class:list={['inline-flex items-center gap-1', className]}
+  role="img"
+  aria-label={`Rating: ${rating} out of ${TOTAL_STARS} stars${showCount && count != null ? `, ${count} reviews` : ''}`}
+>
+  {stars.map((state, i) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      aria-hidden="true"
+      class="shrink-0"
+    >
+      {state === 'half' && (
+        <defs>
+          <linearGradient id={`${uid}-${i}`}>
+            <stop offset="50%" stop-color="var(--color-gold-500)" />
+            <stop offset="50%" stop-color="var(--color-bark-200)" />
+          </linearGradient>
+        </defs>
+      )}
+      <path
+        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+        fill={
+          state === 'full'
+            ? 'var(--color-gold-500)'
+            : state === 'half'
+              ? `url(#${uid}-${i})`
+              : 'var(--color-bark-200)'
+        }
+        stroke={state === 'empty' ? 'var(--color-bark-200)' : 'var(--color-gold-500)'}
+        stroke-width="1"
+        stroke-linejoin="round"
+      />
+    </svg>
+  ))}
+
+  {showCount && count != null && (
+    <span class="ml-1 text-sm text-bark-500">
+      ({count} {count === 1 ? 'review' : 'reviews'})
+    </span>
+  )}
+</div>

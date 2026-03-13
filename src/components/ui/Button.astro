@@ -1,0 +1,64 @@
+---
+/**
+ * Button component with multiple visual variants.
+ * Supports rendering as <a> or <button> depending on props.
+ */
+export interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'cta';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  size = 'md',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+
+const baseClasses =
+  'inline-flex items-center justify-center font-body font-semibold rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer';
+
+const sizeClasses: Record<string, string> = {
+  sm: 'px-4 py-2 text-sm gap-1.5',
+  md: 'px-6 py-3 text-base gap-2',
+  lg: 'px-8 py-4 text-lg gap-2.5',
+};
+
+const variantClasses: Record<string, string> = {
+  primary:
+    'bg-sage-600 text-white hover:bg-sage-700 active:bg-sage-800 shadow-sm hover:shadow-md focus-visible:outline-sage-500',
+  secondary:
+    'bg-transparent text-sage-600 border-2 border-sage-600 hover:bg-sage-50 active:bg-sage-100 focus-visible:outline-sage-500',
+  ghost:
+    'bg-transparent text-bark-600 hover:bg-bark-100 active:bg-bark-200 focus-visible:outline-bark-400',
+  cta:
+    'bg-terra-500 text-white hover:bg-terra-600 active:bg-terra-700 shadow-md hover:shadow-lg focus-visible:outline-terra-400',
+};
+
+/* CTA variant is slightly larger — bump md to lg sizing */
+const effectiveSize = variant === 'cta' && size === 'md' ? 'lg' : size;
+
+const classes = [baseClasses, sizeClasses[effectiveSize], variantClasses[variant], className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{
+  Tag === 'a' ? (
+    <a href={href} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

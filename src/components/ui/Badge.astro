@@ -1,0 +1,40 @@
+---
+/**
+ * Badge — Small label/tag component with color variants.
+ */
+export interface Props {
+  variant?: 'sage' | 'terra' | 'gold' | 'bark' | 'cream';
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const {
+  variant = 'sage',
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+
+const variantClasses: Record<string, string> = {
+  sage: 'bg-sage-100 text-sage-700 border-sage-200',
+  terra: 'bg-terra-50 text-terra-700 border-terra-200',
+  gold: 'bg-gold-100 text-gold-800 border-gold-300',
+  bark: 'bg-bark-100 text-bark-700 border-bark-200',
+  cream: 'bg-cream-100 text-bark-600 border-cream-300',
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: 'px-2 py-0.5 text-xs',
+  md: 'px-3 py-1 text-sm',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center font-body font-semibold rounded-full border',
+    variantClasses[variant],
+    sizeClasses[size],
+    className,
+  ]}
+>
+  <slot />
+</span>

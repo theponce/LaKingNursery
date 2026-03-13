@@ -1,0 +1,28 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import TrustBar from '../components/home/TrustBar.astro';
+import ServicesOverview from '../components/home/ServicesOverview.astro';
+import SeasonalSpotlight from '../components/home/SeasonalSpotlight.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import GalleryPreview from '../components/home/GalleryPreview.astro';
+import ServiceArea from '../components/home/ServiceArea.astro';
+import LeadCapture from '../components/home/LeadCapture.astro';
+import BlogPreview from '../components/home/BlogPreview.astro';
+import { businessInfo } from '../data/businessInfo';
+---
+
+<PageLayout
+  title="Nursery & Landscaping in Kingsville, TX"
+  description="Family-owned nursery & landscaping in Kingsville, TX since 1998. Quality plants, expert landscape design, lawn care, and more. 5-star rated. Call (361) 592-9933."
+>
+  <Hero />
+  <TrustBar />
+  <ServicesOverview />
+  <SeasonalSpotlight />
+  <Testimonials />
+  <GalleryPreview />
+  <ServiceArea />
+  <LeadCapture />
+  <BlogPreview />
+</PageLayout>

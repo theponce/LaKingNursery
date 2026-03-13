@@ -1,0 +1,468 @@
+---
+/**
+ * Blog Post — Dynamic blog post page rendered from content collection.
+ * Enhanced with reading progress, TOC, reading time, author box,
+ * share section, and back-to-top button.
+ */
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
+import Button from '../../components/ui/Button.astro';
+import Badge from '../../components/ui/Badge.astro';
+import { businessInfo } from '../../data/businessInfo';
+import {
+  ArrowLeft,
+  Calendar,
+  User,
+  Tag,
+  Clock,
+  ChevronDown,
+  ArrowUp,
+  Link as LinkIcon,
+  Check,
+  BookOpen,
+} from '@lucide/astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Calculate reading time from raw markdown body
+const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0;
+const readingTime = Math.max(1, Math.ceil(wordCount / 238));
+
+// Extract H2 headings for Table of Contents
+const headingRegex = /^## (.+)$/gm;
+const headings: { text: string; slug: string }[] = [];
+let match;
+const bodyText = post.body ?? '';
+while ((match = headingRegex.exec(bodyText)) !== null) {
+  const rawText = match[1].trim();
+  // Clean markdown formatting from display text (remove *, _, `, etc.)
+  const text = rawText
+    .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1') // bold/italic
+    .replace(/_([^_]+)_/g, '$1')              // underscore emphasis
+    .replace(/`([^`]+)`/g, '$1');             // inline code
+  const slug = rawText
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  headings.push({ text, slug });
+}
+
+// Get related posts (same category, excluding current)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2);
+
+// If not enough same-category posts, fill with recent ones
+if (relatedPosts.length < 2) {
+  const moreRecent = allPosts
+    .filter((p) => p.id !== post.id && !relatedPosts.some((r) => r.id === p.id))
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+    .slice(0, 2 - relatedPosts.length);
+  relatedPosts.push(...moreRecent);
+}
+
+const formattedDate = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<PageLayout
+  title={post.data.title}
+  description={post.data.description}
+>
+  <!-- Reading Progress Bar -->
+  <div class="blog-progress-bar" id="reading-progress" aria-hidden="true"></div>
+
+  <!-- Hero Banner -->
+  <section class="bg-sage-800 py-12 md:py-16" aria-label="Blog post header">
+    <Container>
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Blog', href: '/blog/' },
+          { label: post.data.title },
+        ]}
+      />
+      <div class="max-w-3xl">
+        <Badge variant="sage">{post.data.category}</Badge>
+        <h1 class="mt-4 font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+          {post.data.title}
+        </h1>
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-sm text-sage-300">
+          <span class="inline-flex items-center gap-1.5">
+            <Calendar class="h-4 w-4" aria-hidden="true" />
+            <time datetime={post.data.date.toISOString().split('T')[0]}>{formattedDate}</time>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <User class="h-4 w-4" aria-hidden="true" />
+            {post.data.author}
+          </span>
+          <span class="blog-reading-time">
+            <Clock class="h-4 w-4" aria-hidden="true" />
+            {readingTime} min read
+          </span>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Article Content with Sidebar TOC -->
+  <article class="py-12 md:py-16 bg-cream-50" id="blog-article">
+    <Container>
+      <div class="mx-auto max-w-7xl lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 xl:grid-cols-[1fr_260px]">
+
+        <!-- Main Content Column -->
+        <div class="mx-auto max-w-3xl lg:max-w-none">
+
+          <!-- Mobile Table of Contents -->
+          {headings.length > 2 && (
+            <details class="blog-toc-mobile mb-8 lg:hidden">
+              <summary>
+                <span class="flex items-center gap-2">
+                  <BookOpen class="h-4 w-4" aria-hidden="true" />
+                  In This Article
+                </span>
+                <ChevronDown class="toc-chevron h-4 w-4" aria-hidden="true" />
+              </summary>
+              <nav class="toc-list" aria-label="Table of contents">
+                {headings.map((heading) => (
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                ))}
+              </nav>
+            </details>
+          )}
+
+          <!-- Prose Content -->
+          <div class="blog-prose max-w-3xl" id="blog-content">
+            <Content />
+          </div>
+
+          <!-- Tags -->
+          {post.data.tags.length > 0 && (
+            <div class="mt-12 pt-8 border-t border-cream-300 max-w-3xl">
+              <div class="flex flex-wrap items-center gap-2">
+                <Tag class="h-4 w-4 text-bark-400" aria-hidden="true" />
+                {post.data.tags.map((tag: string) => (
+                  <span class="rounded-full bg-cream-200 px-3 py-1 text-xs font-medium text-bark-600 transition-colors hover:bg-cream-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Share Section -->
+          <div class="blog-share-section max-w-3xl" role="region" aria-label="Share this article">
+            <span>Share this article</span>
+            <button
+              class="blog-copy-link"
+              id="copy-link-btn"
+              type="button"
+              aria-label="Copy article link to clipboard"
+            >
+              <LinkIcon class="h-4 w-4" aria-hidden="true" />
+              <span class="copy-link-text">Copy Link</span>
+            </button>
+          </div>
+
+          <!-- Author Box -->
+          <div class="blog-author-box max-w-3xl">
+            <div class="blog-author-avatar" aria-hidden="true">LK</div>
+            <div class="blog-author-info">
+              <h3>La King Nursery</h3>
+              <p>
+                Family-owned nursery serving Kingsville and the Coastal Bend since 1998.
+                We help South Texas gardeners grow with quality plants, expert advice, and
+                professional landscaping services.
+              </p>
+            </div>
+          </div>
+
+          <!-- Back to Blog -->
+          <div class="mt-8 max-w-3xl">
+            <a
+              href="/blog/"
+              class="inline-flex items-center gap-2 text-sage-600 font-semibold hover:text-sage-700 transition-colors group"
+            >
+              <ArrowLeft class="h-4 w-4 transition-transform group-hover:-translate-x-1" aria-hidden="true" />
+              Back to Blog
+            </a>
+          </div>
+        </div>
+
+        <!-- Desktop Sidebar TOC -->
+        {headings.length > 2 && (
+          <aside class="hidden lg:block" aria-label="Table of contents">
+            <nav class="blog-toc" id="desktop-toc">
+              <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-bark-400">
+                In This Article
+              </p>
+              {headings.map((heading) => (
+                <a
+                  href={`#${heading.slug}`}
+                  class="blog-toc-link"
+                  data-toc-slug={heading.slug}
+                >
+                  {heading.text}
+                </a>
+              ))}
+            </nav>
+          </aside>
+        )}
+      </div>
+    </Container>
+  </article>
+
+  <!-- Related Posts -->
+  {relatedPosts.length > 0 && (
+    <section class="py-12 md:py-16 bg-white" aria-labelledby="related-posts-heading">
+      <Container>
+        <h2
+          id="related-posts-heading"
+          class="font-heading text-2xl md:text-3xl font-bold text-bark-800 mb-8"
+        >
+          You Might Also Enjoy
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {relatedPosts.map((related) => (
+            <a
+              href={`/blog/${related.id}/`}
+              class="group block rounded-2xl border border-cream-200 bg-cream-50 p-6 transition-all hover:shadow-md hover:border-sage-200"
+            >
+              <Badge variant="sage">{related.data.category}</Badge>
+              <h3 class="mt-3 font-heading text-xl font-bold text-bark-800 group-hover:text-sage-700 transition-colors">
+                {related.data.title}
+              </h3>
+              <p class="mt-2 text-bark-500 text-sm leading-relaxed line-clamp-2">
+                {related.data.description}
+              </p>
+              <time
+                datetime={related.data.date.toISOString().split('T')[0]}
+                class="mt-3 block text-xs text-bark-400"
+              >
+                {related.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="reveal bg-sage-600 py-16 md:py-20" aria-label="Get in touch">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-4">
+          Need Help With Your Garden?
+        </h2>
+        <p class="text-sage-100 text-lg mb-8">
+          Our team is here to answer your questions and help your garden thrive. Stop by or give us a call.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Button variant="cta" href="/contact/" size="lg">
+            Get a Free Quote
+          </Button>
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center gap-2 rounded-lg border-2 border-white/80 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Call {businessInfo.phone.display}
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Back to Top Button -->
+  <button
+    class="back-to-top"
+    id="back-to-top"
+    type="button"
+    aria-label="Back to top"
+  >
+    <ArrowUp class="h-5 w-5" aria-hidden="true" />
+  </button>
+
+  <!-- Blog Post Scripts -->
+  <script>
+    function initBlogFeatures() {
+      /* --- Reading Progress Bar --- */
+      const progressBar = document.getElementById('reading-progress');
+      const article = document.getElementById('blog-article');
+
+      if (progressBar && article) {
+        const updateProgress = () => {
+          const articleRect = article.getBoundingClientRect();
+          const articleTop = article.offsetTop;
+          const articleHeight = article.offsetHeight;
+          const windowHeight = window.innerHeight;
+          const scrollY = window.scrollY;
+
+          // Calculate progress through the article specifically
+          const start = articleTop;
+          const end = articleTop + articleHeight - windowHeight;
+          const progress = Math.min(100, Math.max(0, ((scrollY - start) / (end - start)) * 100));
+
+          progressBar.style.width = progress + '%';
+        };
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+      }
+
+      /* --- Back to Top Button --- */
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const toggleBackToTop = () => {
+          if (window.scrollY > 600) {
+            backToTop.classList.add('is-visible');
+          } else {
+            backToTop.classList.remove('is-visible');
+          }
+        };
+
+        window.addEventListener('scroll', toggleBackToTop, { passive: true });
+        toggleBackToTop();
+
+        backToTop.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      /* --- Copy Link Button --- */
+      const copyBtn = document.getElementById('copy-link-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            copyBtn.classList.add('is-copied');
+            const textEl = copyBtn.querySelector('.copy-link-text');
+            if (textEl) {
+              const originalText = textEl.textContent;
+              textEl.textContent = 'Copied!';
+              setTimeout(() => {
+                copyBtn.classList.remove('is-copied');
+                textEl.textContent = originalText;
+              }, 2000);
+            }
+          } catch {
+            // Fallback: select a temporary input
+            const input = document.createElement('input');
+            input.value = window.location.href;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+          }
+        });
+      }
+
+      /* --- Desktop TOC Active State (IntersectionObserver) --- */
+      const tocLinks = document.querySelectorAll('.blog-toc-link[data-toc-slug]');
+      if (tocLinks.length > 0) {
+        const headingEls: Element[] = [];
+        tocLinks.forEach((link) => {
+          const slug = (link as HTMLElement).dataset.tocSlug;
+          if (slug) {
+            const heading = document.getElementById(slug);
+            if (heading) headingEls.push(heading);
+          }
+        });
+
+        if (headingEls.length > 0) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const id = entry.target.id;
+                  tocLinks.forEach((link) => {
+                    if ((link as HTMLElement).dataset.tocSlug === id) {
+                      link.classList.add('is-active');
+                    } else {
+                      link.classList.remove('is-active');
+                    }
+                  });
+                }
+              });
+            },
+            {
+              rootMargin: '-80px 0px -70% 0px',
+              threshold: 0,
+            }
+          );
+
+          headingEls.forEach((el) => observer.observe(el));
+        }
+      }
+
+      /* --- Wrap tables in responsive wrapper --- */
+      const blogContent = document.getElementById('blog-content');
+      if (blogContent) {
+        blogContent.querySelectorAll('table').forEach((table) => {
+          if (!table.parentElement?.classList.contains('table-wrapper')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'table-wrapper';
+            table.parentNode?.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+          }
+        });
+
+        /* --- Transform blockquotes with "Pro Tip:" or "Pro tip:" into callout-tip --- */
+        blogContent.querySelectorAll('blockquote').forEach((bq) => {
+          const firstP = bq.querySelector('p:first-child');
+          if (!firstP) return;
+
+          const text = firstP.innerHTML;
+
+          // Check for Pro Tip pattern
+          const tipMatch = text.match(/^<strong>Pro [Tt]ip:?<\/strong>\s*/);
+          if (tipMatch) {
+            bq.classList.add('callout-tip');
+            // Remove the blockquote default styling attributes
+            const label = document.createElement('span');
+            label.className = 'callout-label';
+            label.textContent = 'Pro Tip';
+            firstP.innerHTML = text.replace(tipMatch[0], '');
+            firstP.insertBefore(label, firstP.firstChild);
+            return;
+          }
+
+          // Check for Warning / Caution pattern
+          const warnMatch = text.match(/^<strong>(Warning|Caution):?<\/strong>\s*/);
+          if (warnMatch) {
+            bq.classList.add('callout-warning');
+            const label = document.createElement('span');
+            label.className = 'callout-label';
+            label.textContent = warnMatch[1];
+            firstP.innerHTML = text.replace(warnMatch[0], '');
+            firstP.insertBefore(label, firstP.firstChild);
+            return;
+          }
+        });
+      }
+    }
+
+    // Run on initial load
+    initBlogFeatures();
+
+    // Re-run after Astro page transitions
+    document.addEventListener('astro:page-load', initBlogFeatures);
+  </script>
+</PageLayout>

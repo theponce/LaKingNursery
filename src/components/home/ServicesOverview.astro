@@ -1,0 +1,70 @@
+---
+/**
+ * ServicesOverview — Grid of 6 service cards with icons and descriptions.
+ * Links through to individual service pages.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import {
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+} from '@lucide/astro';
+import { services } from '../../data/services';
+
+const iconMap: Record<string, any> = {
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+};
+---
+
+<section class="reveal py-16 md:py-24" id="services" aria-labelledby="services-heading">
+  <Container>
+    <SectionHeader
+      overline="What We Do"
+      title="Complete Nursery & Landscaping Services"
+    />
+    <div id="services-heading" class="sr-only">Our Services</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal-stagger">
+      {services.map((service) => {
+        const IconComponent = iconMap[service.icon];
+        return (
+          <Card hover padding="lg" class="flex flex-col items-start gap-4 reveal">
+            <div class="w-14 h-14 rounded-xl bg-sage-50 flex items-center justify-center" aria-hidden="true">
+              {IconComponent && <IconComponent size={28} class="text-sage-600" />}
+            </div>
+            <h3 class="font-heading text-xl font-bold text-bark-800">
+              {service.title}
+            </h3>
+            <p class="font-body text-bark-500 leading-relaxed line-clamp-2 text-sm">
+              {service.description}
+            </p>
+            <a
+              href={`/services/${service.slug}/`}
+              class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 hover:text-sage-700 transition-colors text-sm mt-auto group"
+            >
+              Learn More
+              <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+            </a>
+          </Card>
+        );
+      })}
+    </div>
+
+    <div class="mt-12 text-center">
+      <Button variant="secondary" href="/services/">
+        View All Services
+      </Button>
+    </div>
+  </Container>
+</section>

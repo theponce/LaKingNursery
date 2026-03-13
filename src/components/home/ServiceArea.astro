@@ -1,0 +1,64 @@
+---
+/**
+ * ServiceArea — Dark section showing service coverage area
+ * with a list of towns and placeholder map.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import { MapPin } from '@lucide/astro';
+import { business } from '../../data/businessInfo';
+---
+
+<section class="reveal bg-bark-800 py-16 md:py-24" aria-labelledby="service-area-title">
+  <Container>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <!-- Left: Content -->
+      <div class="reveal-left">
+        <SectionHeader
+          overline="Service Area"
+          title="Proudly Serving South Texas"
+          align="left"
+          dark
+          class="mb-8"
+        />
+        <h2 id="service-area-title" class="sr-only">Our Service Area</h2>
+
+        <ul class="grid grid-cols-2 gap-3 mb-8" role="list">
+          {business.serviceAreas.map((town) => (
+            <li class="flex items-center gap-2">
+              <MapPin size={16} class="text-terra-400 flex-shrink-0" aria-hidden="true" />
+              <span class="font-body text-cream-200">{town}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="font-body text-cream-400 text-sm mb-8">
+          Serving a 50-mile radius around Kingsville. Contact us to see if we cover your area.
+        </p>
+
+        <Button
+          variant="cta"
+          href={business.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <MapPin size={18} aria-hidden="true" />
+          Get Directions
+        </Button>
+      </div>
+
+      <!-- Right: Map placeholder -->
+      <div class="reveal-right">
+        <div
+          class="aspect-video bg-bark-600 rounded-xl flex flex-col items-center justify-center border border-bark-500"
+          role="img"
+          aria-label="Map showing La King Nursery service area in South Texas"
+        >
+          <MapPin size={48} class="text-bark-400 mb-2" aria-hidden="true" />
+          <span class="font-body text-bark-400 text-sm font-medium">Service Area Map</span>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

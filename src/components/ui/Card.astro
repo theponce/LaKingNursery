@@ -1,0 +1,36 @@
+---
+/**
+ * Card — Flexible card container with optional hover effects.
+ */
+export interface Props {
+  hover?: boolean;
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  class?: string;
+  as?: string;
+}
+
+const {
+  hover = false,
+  padding = 'md',
+  class: className = '',
+  as: Tag = 'div',
+} = Astro.props;
+
+const paddingClasses: Record<string, string> = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+};
+---
+
+<Tag
+  class:list={[
+    'bg-white rounded-xl border border-cream-200 shadow-sm',
+    hover && 'transition-all duration-200 hover:shadow-md hover:-translate-y-0.5',
+    paddingClasses[padding],
+    className,
+  ]}
+>
+  <slot />
+</Tag>

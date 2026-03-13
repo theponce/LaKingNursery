@@ -1,0 +1,63 @@
+---
+/**
+ * TrustBar — Narrow horizontal strip with 3 trust signals.
+ * Shows years in business, star rating, and service area.
+ */
+import Container from '../ui/Container.astro';
+import { Calendar, Star, MapPin } from '@lucide/astro';
+import { business } from '../../data/businessInfo';
+
+const trustItems = [
+  {
+    icon: 'calendar',
+    label: `Est. ${business.founded}`,
+    text: `${business.yearsInBusiness}+ Years of Growing`,
+  },
+  {
+    icon: 'star',
+    label: `${business.rating} Star Rated`,
+    text: `${business.reviewCount} Five-Star Reviews`,
+  },
+  {
+    icon: 'mappin',
+    label: 'Serving the Coastal Bend',
+    text: 'Kingsville & Surrounding Areas',
+  },
+];
+---
+
+<section class="reveal bg-cream-100 border-y border-cream-300 py-6" aria-label="Trust indicators">
+  <Container>
+    <ul class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 lg:gap-16 list-none" role="list">
+      <li class="flex items-center gap-3 text-center sm:text-left">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center" aria-hidden="true">
+          <Calendar size={20} class="text-sage-600" />
+        </div>
+        <div>
+          <p class="font-body font-bold text-bark-800 text-sm">{trustItems[0].label}</p>
+          <p class="font-body text-bark-500 text-xs">{trustItems[0].text}</p>
+        </div>
+      </li>
+
+      <li class="flex items-center gap-3 text-center sm:text-left">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center" aria-hidden="true">
+          <Star size={20} class="text-gold-500 fill-gold-500" />
+        </div>
+        <div>
+          <p class="font-body font-bold text-bark-800 text-sm">{trustItems[1].label}</p>
+          <p class="font-body text-bark-500 text-xs">{trustItems[1].text}</p>
+        </div>
+      </li>
+
+      <li class="flex items-center gap-3 text-center sm:text-left">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-terra-50 flex items-center justify-center" aria-hidden="true">
+          <MapPin size={20} class="text-terra-500" />
+        </div>
+        <div>
+          <p class="font-body font-bold text-bark-800 text-sm">{trustItems[2].label}</p>
+          <p class="font-body text-bark-500 text-xs">{trustItems[2].text}</p>
+        </div>
+      </li>
+    </ul>
+  </Container>
+</section>

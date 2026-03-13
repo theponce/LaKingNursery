@@ -1,0 +1,62 @@
+---
+/**
+ * GalleryPreview — Grid of 6 image placeholders showcasing work samples.
+ * Links to full gallery page.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import { Image } from '@lucide/astro';
+
+const galleryItems = [
+  { label: 'Landscape Design', aspect: 'aspect-square' },
+  { label: 'Garden Installation', aspect: 'aspect-[4/3]' },
+  { label: 'Patio Hardscaping', aspect: 'aspect-square' },
+  { label: 'Native Planting', aspect: 'aspect-[4/3]' },
+  { label: 'Irrigation System', aspect: 'aspect-square' },
+  { label: 'Tree Services', aspect: 'aspect-[4/3]' },
+];
+---
+
+<section class="reveal py-16 md:py-24" aria-labelledby="gallery-title">
+  <Container>
+    <SectionHeader
+      overline="Our Work"
+      title="See the La King Difference"
+    />
+    <h2 id="gallery-title" class="sr-only">Project Gallery</h2>
+
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 reveal-stagger">
+      {galleryItems.map((item) => (
+        <div
+          class:list={[
+            'group relative bg-sage-100 rounded-xl overflow-hidden flex flex-col items-center justify-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer reveal',
+            item.aspect,
+          ]}
+          role="img"
+          aria-label={`Gallery photo: ${item.label}`}
+        >
+          <Image
+            size={32}
+            class="text-sage-300 mb-2 transition-transform duration-300 group-hover:scale-110"
+            aria-hidden="true"
+          />
+          <span class="font-body text-sage-400 text-sm font-medium text-center px-2">
+            {item.label}
+          </span>
+          <!-- Hover overlay -->
+          <div
+            class="absolute inset-0 bg-sage-800/0 group-hover:bg-sage-800/20 transition-colors duration-300 rounded-xl"
+            aria-hidden="true"
+          ></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <Button variant="secondary" href="/gallery/">
+        View Full Gallery
+      </Button>
+    </div>
+  </Container>
+</section>

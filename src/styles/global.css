@@ -1,0 +1,1080 @@
+@import "tailwindcss";
+
+/* ============================================
+   La King Nursery - Design Tokens (Tailwind 4)
+   ============================================ */
+
+@theme {
+  /* --- Sage (Primary) --- */
+  --color-sage-50: #f0f5f1;
+  --color-sage-100: #dce8de;
+  --color-sage-200: #b9d1be;
+  --color-sage-300: #8fb89a;
+  --color-sage-400: #6a9e78;
+  --color-sage-500: #4A7C59;
+  --color-sage-600: #3d6649;
+  --color-sage-700: #325139;
+  --color-sage-800: #273e2d;
+  --color-sage-900: #1c2d20;
+
+  /* --- Terracotta (Accent) --- */
+  --color-terra-50: #fdf3ee;
+  --color-terra-100: #fae3d7;
+  --color-terra-200: #f3c5ad;
+  --color-terra-300: #e9a17f;
+  --color-terra-400: #d98960;
+  --color-terra-500: #C4704B;
+  --color-terra-600: #a45c3d;
+  --color-terra-700: #834a32;
+  --color-terra-800: #633828;
+  --color-terra-900: #46281d;
+
+  /* --- Gold (Highlight) --- */
+  --color-gold-50: #fdf9ef;
+  --color-gold-100: #f9f0d5;
+  --color-gold-200: #f1ddaa;
+  --color-gold-300: #e6c67a;
+  --color-gold-400: #ddb558;
+  --color-gold-500: #D4A843;
+  --color-gold-600: #b08c37;
+  --color-gold-700: #8c702c;
+  --color-gold-800: #6a5522;
+  --color-gold-900: #4a3b18;
+
+  /* --- Cream (Background) --- */
+  --color-cream-50: #FDFBF7;
+  --color-cream-100: #FAF6EE;
+  --color-cream-200: #F5EFE2;
+  --color-cream-300: #EDE5D4;
+  --color-cream-400: #E2D8C3;
+  --color-cream-500: #D4C9B0;
+  --color-cream-600: #BFB398;
+
+  /* --- Bark (Text / Dark) --- */
+  --color-bark-50: #f5f4f3;
+  --color-bark-100: #e8e6e3;
+  --color-bark-200: #cfc9c3;
+  --color-bark-300: #b0a89f;
+  --color-bark-400: #8e847a;
+  --color-bark-500: #6b6259;
+  --color-bark-600: #564e46;
+  --color-bark-700: #453f38;
+  --color-bark-800: #3D352D;
+  --color-bark-900: #2a241f;
+
+  /* --- Font families --- */
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Source Sans 3", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* --- Container --- */
+  --container-2xl: 1320px;
+}
+
+/* ============================================
+   Google Fonts - @font-face via CDN
+   (will be self-hosted later via /public/fonts/)
+   ============================================ */
+
+/* Playfair Display — Regular 400 */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKd3vXDXbtM.woff2")
+    format("woff2");
+}
+
+/* Playfair Display — SemiBold 600 */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeruXDXbtM.woff2")
+    format("woff2");
+}
+
+/* Playfair Display — Bold 700 */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKeiuXDXbtM.woff2")
+    format("woff2");
+}
+
+/* Source Sans 3 — Regular 400 */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/sourcesans3/v15/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8Ky462EB.woff2")
+    format("woff2");
+}
+
+/* Source Sans 3 — Medium 500 */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/sourcesans3/v15/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8Kyw62EB.woff2")
+    format("woff2");
+}
+
+/* Source Sans 3 — SemiBold 600 */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/sourcesans3/v15/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8KxQ7GEB.woff2")
+    format("woff2");
+}
+
+/* Source Sans 3 — Bold 700 */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/sourcesans3/v15/nwpBtKy2OAdR1K-IwhWudF-R9QMylBJAV3Bo8Kxp7GEB.woff2")
+    format("woff2");
+}
+
+/* ============================================
+   Base Layer Styles
+   ============================================ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-bark-800);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: var(--color-sage-200);
+    color: var(--color-bark-900);
+  }
+
+  /* Focus-visible outlines for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-sage-500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Remove focus outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================
+   Scroll-Triggered Reveal Animations
+   ============================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays for child elements */
+.reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 100ms; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 200ms; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 300ms; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 400ms; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 500ms; }
+
+/* ============================================
+   Mobile Drawer — Body Lock
+   ============================================ */
+
+body.drawer-open {
+  overflow: hidden;
+}
+
+/* ============================================
+   Blog Prose — Premium Magazine Styling
+   ============================================ */
+
+/* --- Reading Progress Bar --- */
+.blog-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-sage-400),
+    var(--color-sage-500),
+    var(--color-sage-600)
+  );
+  z-index: 100;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* --- Back to Top Button --- */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-sage-600);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  border: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+  pointer-events: none;
+  z-index: 90;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background-color: var(--color-sage-700);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top:active {
+  background-color: var(--color-sage-800);
+  transform: translateY(1px);
+}
+
+/* Move up on mobile to avoid MobileCTA overlap */
+@media (max-width: 767px) {
+  .back-to-top {
+    bottom: 5.5rem;
+    right: 1rem;
+  }
+}
+
+/* --- Table of Contents (Desktop Sidebar) --- */
+.blog-toc {
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cream-300) transparent;
+}
+
+.blog-toc::-webkit-scrollbar {
+  width: 4px;
+}
+
+.blog-toc::-webkit-scrollbar-thumb {
+  background: var(--color-cream-300);
+  border-radius: 2px;
+}
+
+.blog-toc-link {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-bark-400);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.blog-toc-link:hover {
+  color: var(--color-sage-600);
+  border-left-color: var(--color-sage-300);
+}
+
+.blog-toc-link.is-active {
+  color: var(--color-sage-700);
+  border-left-color: var(--color-sage-500);
+  font-weight: 600;
+}
+
+/* --- Mobile TOC (Collapsible) --- */
+.blog-toc-mobile summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-bark-600);
+  background-color: var(--color-cream-100);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-cream-300);
+  transition: background-color 0.2s ease;
+}
+
+.blog-toc-mobile summary:hover {
+  background-color: var(--color-cream-200);
+}
+
+.blog-toc-mobile summary::-webkit-details-marker {
+  display: none;
+}
+
+.blog-toc-mobile summary::marker {
+  display: none;
+  content: "";
+}
+
+.blog-toc-mobile .toc-chevron {
+  transition: transform 0.3s ease;
+}
+
+.blog-toc-mobile[open] .toc-chevron {
+  transform: rotate(180deg);
+}
+
+.blog-toc-mobile .toc-list {
+  padding: 0.5rem 0.75rem;
+}
+
+.blog-toc-mobile .toc-list a {
+  display: block;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-bark-500);
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.blog-toc-mobile .toc-list a:hover {
+  color: var(--color-sage-600);
+  background-color: var(--color-sage-50);
+}
+
+/* --- Blog Prose Content Styling --- */
+
+.blog-prose {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-bark-600);
+}
+
+/* --- H2: Left border accent --- */
+.blog-prose h2 {
+  font-family: var(--font-heading);
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-bark-800);
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-sage-400);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .blog-prose h2 {
+    font-size: 1.875rem;
+  }
+}
+
+/* Scroll-margin for anchor links */
+.blog-prose h2[id],
+.blog-prose h3[id] {
+  scroll-margin-top: 2rem;
+}
+
+/* --- H3: Sage leaf marker --- */
+.blog-prose h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-bark-700);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .blog-prose h3 {
+    font-size: 1.5rem;
+  }
+}
+
+.blog-prose h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-sage-400);
+  border-radius: 50%;
+}
+
+/* --- Paragraphs --- */
+.blog-prose p {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-wrap: pretty;
+}
+
+/* --- Drop cap on first paragraph --- */
+.blog-prose > p:first-child::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 3.5em;
+  line-height: 0.8;
+  font-weight: 700;
+  color: var(--color-sage-700);
+  padding-right: 0.1em;
+  padding-top: 0.05em;
+}
+
+/* --- Links: Sage with animated underline --- */
+.blog-prose a {
+  color: var(--color-sage-600);
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.blog-prose a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-sage-400);
+  transition: width 0.3s ease;
+}
+
+.blog-prose a:hover {
+  color: var(--color-sage-700);
+}
+
+.blog-prose a:hover::after {
+  width: 100%;
+}
+
+/* --- Strong / Bold --- */
+.blog-prose strong {
+  color: var(--color-bark-700);
+  font-weight: 700;
+}
+
+/* --- Emphasis / Italic --- */
+.blog-prose em {
+  font-style: italic;
+  color: var(--color-bark-500);
+}
+
+/* --- Blockquotes: Beautiful callout boxes --- */
+.blog-prose blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  background-color: var(--color-sage-50);
+  border-left: 4px solid var(--color-sage-400);
+  border-radius: 0 0.75rem 0.75rem 0;
+  position: relative;
+  font-style: italic;
+  font-size: 1.0625rem;
+  color: var(--color-bark-500);
+}
+
+.blog-prose blockquote::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.25rem;
+  left: 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--color-sage-200);
+  font-style: normal;
+}
+
+.blog-prose blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Pro Tip Callout --- */
+.blog-prose blockquote:has(strong:first-child) {
+  /* Default for all blockquotes with bold start */
+}
+
+.blog-prose blockquote p:first-child strong:first-child {
+  display: inline;
+}
+
+/* Pro Tip: triggered by blockquote starting with "Pro Tip:" or "Pro tip:" */
+.blog-prose .callout-tip {
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1.25rem 3.25rem;
+  background-color: var(--color-sage-50);
+  border: 1px solid var(--color-sage-200);
+  border-left: 4px solid var(--color-sage-500);
+  border-radius: 0 0.75rem 0.75rem 0;
+  position: relative;
+  font-style: normal;
+  color: var(--color-bark-600);
+  font-size: 0.9375rem;
+}
+
+.blog-prose .callout-tip::before {
+  content: "\1F33F"; /* leaf emoji */
+  position: absolute;
+  left: 0.875rem;
+  top: 1.25rem;
+  font-size: 1.125rem;
+  font-style: normal;
+}
+
+.blog-prose .callout-tip .callout-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-sage-700);
+  margin-bottom: 0.375rem;
+}
+
+/* Warning Callout */
+.blog-prose .callout-warning {
+  margin: 2rem 0;
+  padding: 1.25rem 1.25rem 1.25rem 3.25rem;
+  background-color: var(--color-terra-50);
+  border: 1px solid var(--color-terra-200);
+  border-left: 4px solid var(--color-terra-400);
+  border-radius: 0 0.75rem 0.75rem 0;
+  position: relative;
+  font-style: normal;
+  color: var(--color-bark-600);
+  font-size: 0.9375rem;
+}
+
+.blog-prose .callout-warning::before {
+  content: "\26A0\FE0F"; /* warning emoji */
+  position: absolute;
+  left: 0.875rem;
+  top: 1.25rem;
+  font-size: 1.125rem;
+  font-style: normal;
+}
+
+.blog-prose .callout-warning .callout-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-terra-600);
+  margin-bottom: 0.375rem;
+}
+
+/* --- Unordered Lists: Sage-colored custom bullets --- */
+.blog-prose ul {
+  margin: 1.5rem 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.blog-prose ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-bark-600);
+}
+
+.blog-prose ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-sage-400);
+  border-radius: 50%;
+}
+
+/* Nested list bullets — slightly different */
+.blog-prose ul ul li::before {
+  background-color: transparent;
+  border: 1.5px solid var(--color-sage-400);
+}
+
+/* --- Ordered Lists --- */
+.blog-prose ol {
+  margin: 1.5rem 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: ol-counter;
+}
+
+.blog-prose ol li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-bark-600);
+  counter-increment: ol-counter;
+}
+
+.blog-prose ol li::before {
+  content: counter(ol-counter);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  background-color: var(--color-sage-500);
+  border-radius: 50%;
+}
+
+/* --- Horizontal Rules: Decorative triple dot divider --- */
+.blog-prose hr {
+  border: none;
+  margin: 3rem auto;
+  text-align: center;
+  height: auto;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.blog-prose hr::before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-cream-400), transparent);
+}
+
+.blog-prose hr::after {
+  content: "\2022 \2022 \2022";
+  color: var(--color-sage-400);
+  font-size: 0.875rem;
+  letter-spacing: 0.5em;
+  flex-shrink: 0;
+}
+
+/* --- Tables: Magazine-quality --- */
+.blog-prose table {
+  width: 100%;
+  margin: 2rem 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9375rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-cream-300);
+}
+
+.blog-prose thead th {
+  background-color: var(--color-sage-600);
+  color: white;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.875rem 1rem;
+  text-align: left;
+}
+
+.blog-prose thead th:first-child {
+  border-top-left-radius: 0.75rem;
+}
+
+.blog-prose thead th:last-child {
+  border-top-right-radius: 0.75rem;
+}
+
+.blog-prose tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-cream-200);
+  color: var(--color-bark-600);
+}
+
+.blog-prose tbody tr:nth-child(even) {
+  background-color: var(--color-cream-50);
+}
+
+.blog-prose tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+.blog-prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.blog-prose tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.75rem;
+}
+
+.blog-prose tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.75rem;
+}
+
+/* Responsive table wrapper */
+.blog-prose .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2rem -0.5rem;
+  padding: 0 0.5rem;
+}
+
+/* --- Images --- */
+.blog-prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin: 2rem auto;
+}
+
+.blog-prose figure {
+  margin: 2.5rem 0;
+}
+
+.blog-prose figcaption {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-bark-400);
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+/* --- Code / kbd — for gardening measurements, specs --- */
+.blog-prose code {
+  font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+  font-size: 0.875em;
+  background-color: var(--color-cream-200);
+  color: var(--color-bark-700);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-cream-300);
+}
+
+.blog-prose kbd {
+  font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+  font-size: 0.875em;
+  background-color: var(--color-bark-100);
+  color: var(--color-bark-700);
+  padding: 0.15em 0.5em;
+  border-radius: 0.375rem;
+  border: 1px solid var(--color-bark-200);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.blog-prose pre {
+  background-color: var(--color-bark-800);
+  color: var(--color-cream-100);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.blog-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* --- Pull Quotes: Large centered emphasis quotes --- */
+.blog-prose .pull-quote {
+  margin: 3rem -1rem;
+  padding: 2rem 2rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-sage-700);
+  font-style: italic;
+  border-top: 2px solid var(--color-sage-200);
+  border-bottom: 2px solid var(--color-sage-200);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .blog-prose .pull-quote {
+    margin: 3.5rem -2rem;
+    padding: 2.5rem 3rem;
+    font-size: 1.5rem;
+  }
+}
+
+/* --- Author Box --- */
+.blog-author-box {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background-color: var(--color-cream-100);
+  border: 1px solid var(--color-cream-300);
+  border-radius: 1rem;
+  margin-top: 3rem;
+}
+
+.blog-author-avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-sage-400), var(--color-sage-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.blog-author-info h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-bark-800);
+  margin: 0 0 0.25rem;
+}
+
+.blog-author-info p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-bark-500);
+  margin: 0;
+}
+
+/* --- Share Section --- */
+.blog-share-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-cream-50);
+  border: 1px solid var(--color-cream-300);
+  border-radius: 0.75rem;
+  margin-top: 2rem;
+}
+
+.blog-share-section span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-bark-600);
+}
+
+.blog-copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-sage-600);
+  background-color: white;
+  border: 1px solid var(--color-sage-200);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blog-copy-link:hover {
+  background-color: var(--color-sage-50);
+  border-color: var(--color-sage-300);
+}
+
+.blog-copy-link.is-copied {
+  color: var(--color-sage-700);
+  background-color: var(--color-sage-100);
+  border-color: var(--color-sage-400);
+}
+
+/* --- Reading time pill in header --- */
+.blog-reading-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--color-sage-300);
+}
+
+/* --- Plant Info Card --- */
+.blog-prose .plant-card {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: white;
+  border: 1px solid var(--color-cream-300);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.blog-prose .plant-card h4 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-sage-700);
+  margin: 0 0 0.75rem;
+}
+
+.blog-prose .plant-card p {
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose .plant-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Article Section Spacing --- */
+.blog-prose > h2 + p {
+  margin-top: 0;
+}
+
+.blog-prose > h3 + p {
+  margin-top: 0;
+}
+
+/* Generous space before first list after paragraph */
+.blog-prose > p + ul,
+.blog-prose > p + ol {
+  margin-top: 0.75rem;
+}

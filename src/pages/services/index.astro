@@ -1,0 +1,215 @@
+---
+/**
+ * Services hub page — lists all services with cards linking to detail pages.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
+import {
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+  Phone,
+  MessageSquare,
+  ClipboardList,
+  Hammer,
+} from '@lucide/astro';
+import { services } from '../../data/services';
+import { businessInfo } from '../../data/businessInfo';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services' },
+];
+
+const iconMap: Record<string, any> = {
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+};
+
+const steps = [
+  {
+    number: '1',
+    icon: MessageSquare,
+    title: 'Consultation',
+    description: "Tell us about your project. We'll visit your property and discuss your vision.",
+  },
+  {
+    number: '2',
+    icon: ClipboardList,
+    title: 'Plan & Design',
+    description: 'We create a detailed plan with plant selections, materials, and pricing.',
+  },
+  {
+    number: '3',
+    icon: Hammer,
+    title: 'Installation',
+    description: 'Our skilled team brings your vision to life with expert craftsmanship.',
+  },
+];
+---
+
+<PageLayout
+  title="Our Services"
+  description="La King Nursery offers plant nursery, landscape design, lawn care, irrigation, hardscaping, and tree services in Kingsville, TX. Free consultations available."
+>
+  <!-- Hero Banner -->
+  <section
+    class="reveal relative bg-gradient-to-br from-sage-900 via-sage-800 to-sage-700 py-20 overflow-hidden"
+    aria-label="Our Services"
+  >
+    <div
+      class="absolute inset-0 opacity-10"
+      style="background-image: radial-gradient(circle at 20% 60%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 75% 25%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Our Services
+        </h1>
+        <p class="text-lg md:text-xl text-cream-200 leading-relaxed max-w-2xl mx-auto">
+          Everything your outdoor space needs, from a single plant to a complete landscape transformation.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <Container>
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <!-- Services Grid -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="all-services-heading">
+    <Container>
+      <SectionHeader
+        overline="What We Offer"
+        title="Full-Service Nursery & Landscaping"
+        subtitle="From plants and design to maintenance and hardscaping, we handle it all."
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal-stagger">
+        {services.map((service) => {
+          const IconComponent = iconMap[service.icon];
+          return (
+            <a
+              href={`/services/${service.slug}/`}
+              class="reveal group block bg-white rounded-xl border border-cream-200 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <!-- Image Placeholder -->
+              <div class="aspect-video bg-sage-100 flex items-center justify-center border-b border-cream-200">
+                <div class="text-center text-sage-400">
+                  {IconComponent && <IconComponent size={40} class="mx-auto mb-2" />}
+                  <p class="font-body text-xs font-medium">Photo coming soon</p>
+                </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="p-6 md:p-8">
+                <h2 class="font-heading text-2xl font-bold text-bark-800 mb-3 group-hover:text-sage-600 transition-colors">
+                  {service.title}
+                </h2>
+                <p class="font-body text-bark-500 leading-relaxed mb-4">
+                  {service.description}
+                </p>
+                <span class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 group-hover:text-sage-700 transition-colors text-sm">
+                  Learn More
+                  <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </Container>
+  </section>
+
+  <!-- How We Work -->
+  <section class="reveal py-16 md:py-24 bg-white" aria-labelledby="process-heading">
+    <Container>
+      <SectionHeader
+        overline="Our Process"
+        title="How We Work"
+        subtitle="From your first call to the finished project, we make it simple."
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-stagger">
+        {steps.map((step) => {
+          const StepIcon = step.icon;
+          return (
+            <div class="reveal text-center p-8">
+              <div class="relative w-20 h-20 rounded-full bg-sage-100 flex items-center justify-center mx-auto mb-6">
+                <StepIcon size={32} class="text-sage-600" aria-hidden="true" />
+                <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-terra-500 text-white font-body font-bold text-sm flex items-center justify-center">
+                  {step.number}
+                </span>
+              </div>
+              <h3 class="font-heading text-xl font-bold text-bark-800 mb-3">
+                {step.title}
+              </h3>
+              <p class="font-body text-bark-500 leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="reveal relative overflow-hidden bg-sage-600 py-20 md:py-28"
+    aria-labelledby="services-cta-heading"
+  >
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 12px);"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          id="services-cta-heading"
+          class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+        >
+          Not Sure What You Need?
+        </h2>
+        <p class="font-body text-xl text-sage-100 leading-relaxed mb-10 max-w-2xl mx-auto">
+          We offer free consultations. Tell us about your space and we'll recommend the right services for your budget and goals.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center justify-center gap-2 bg-white text-sage-700 font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-cream-50 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone size={20} aria-hidden="true" />
+            Call {businessInfo.phone.display}
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center gap-2 bg-terra-500 text-white font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-terra-600 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Request a Free Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</PageLayout>

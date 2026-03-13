@@ -1,0 +1,204 @@
+---
+/**
+ * MobileDrawer — full-screen slide-in navigation for mobile.
+ *
+ * - Opens from the right with dark overlay backdrop.
+ * - Focus-trapped when open; closes on Escape or overlay click.
+ * - Uses vanilla JS in an inline <script> — no framework required.
+ */
+import { Phone, X, Facebook } from "@lucide/astro";
+import { businessInfo } from "@/data/businessInfo";
+import { mainNav } from "@/data/navigation";
+---
+
+<!-- Backdrop overlay -->
+<div
+  id="mobile-drawer-overlay"
+  class="fixed inset-0 z-50 bg-bark-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  aria-hidden="true"
+></div>
+
+<!-- Drawer panel -->
+<div
+  id="mobile-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation menu"
+  aria-hidden="true"
+  class="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm translate-x-full flex-col bg-cream-50 shadow-2xl transition-transform duration-300"
+>
+  <!-- Drawer header -->
+  <div class="flex items-center justify-between border-b border-cream-200 px-5 py-4">
+    <span class="font-heading text-lg font-bold text-bark-800">
+      {businessInfo.name}
+    </span>
+    <button
+      type="button"
+      id="mobile-drawer-close"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-bark-500 transition-colors hover:bg-sage-50 hover:text-sage-700 focus:bg-sage-50 focus:text-sage-700"
+      aria-label="Close navigation menu"
+    >
+      <X class="h-6 w-6" aria-hidden="true" />
+    </button>
+  </div>
+
+  <!-- Nav links -->
+  <nav class="flex-1 overflow-y-auto px-5 py-6" aria-label="Mobile navigation">
+    <ul class="space-y-1" role="list">
+      {mainNav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="mobile-drawer-link block rounded-lg px-4 py-3 text-lg font-medium text-bark-700 transition-colors hover:bg-sage-50 hover:text-sage-700 focus:bg-sage-50 focus:text-sage-700"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <!-- Drawer footer -->
+  <div class="border-t border-cream-200 px-5 py-5 space-y-4">
+    <!-- Phone link -->
+    <a
+      href={businessInfo.phone.href}
+      class="flex items-center gap-3 rounded-lg px-4 py-3 text-sage-700 transition-colors hover:bg-sage-50"
+      aria-label={`Call us at ${businessInfo.phone.display}`}
+    >
+      <Phone class="h-5 w-5 shrink-0" aria-hidden="true" />
+      <span class="text-base font-medium">{businessInfo.phone.display}</span>
+    </a>
+
+    <!-- Facebook link -->
+    <a
+      href={businessInfo.social.facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-3 rounded-lg px-4 py-3 text-sage-700 transition-colors hover:bg-sage-50"
+      aria-label="Follow us on Facebook"
+    >
+      <Facebook class="h-5 w-5 shrink-0" aria-hidden="true" />
+      <span class="text-base font-medium">Facebook</span>
+    </a>
+
+    <!-- CTA -->
+    <a
+      href={businessInfo.urls.quote}
+      class="mobile-drawer-link block w-full rounded-lg bg-terra-500 px-6 py-3.5 text-center text-base font-semibold text-white shadow-sm transition-all hover:bg-terra-600 focus:bg-terra-600 active:bg-terra-700"
+    >
+      Free Quote
+    </a>
+  </div>
+</div>
+
+<script>
+  /**
+   * Mobile drawer open/close logic with focus trapping and Escape key.
+   * Uses AbortController to cleanly tear down listeners between page transitions.
+   */
+  let drawerController: AbortController | null = null;
+
+  function initDrawer() {
+    // Tear down previous listeners if re-initialized (Astro view transitions)
+    if (drawerController) {
+      drawerController.abort();
+    }
+    drawerController = new AbortController();
+    const { signal } = drawerController;
+
+    const openBtn = document.getElementById("mobile-menu-btn");
+    const closeBtn = document.getElementById("mobile-drawer-close");
+    const drawer = document.getElementById("mobile-drawer");
+    const overlay = document.getElementById("mobile-drawer-overlay");
+
+    if (!openBtn || !closeBtn || !drawer || !overlay) return;
+
+    let previouslyFocused: Element | null = null;
+
+    function openDrawer() {
+      previouslyFocused = document.activeElement;
+
+      drawer!.classList.remove("translate-x-full");
+      drawer!.classList.add("translate-x-0");
+      drawer!.setAttribute("aria-hidden", "false");
+
+      overlay!.classList.remove("opacity-0", "pointer-events-none");
+      overlay!.classList.add("opacity-100", "pointer-events-auto");
+
+      openBtn!.setAttribute("aria-expanded", "true");
+      document.body.classList.add("drawer-open");
+
+      // Focus the close button after transition
+      setTimeout(() => closeBtn!.focus(), 100);
+    }
+
+    function closeDrawer() {
+      drawer!.classList.add("translate-x-full");
+      drawer!.classList.remove("translate-x-0");
+      drawer!.setAttribute("aria-hidden", "true");
+
+      overlay!.classList.add("opacity-0", "pointer-events-none");
+      overlay!.classList.remove("opacity-100", "pointer-events-auto");
+
+      openBtn!.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("drawer-open");
+
+      // Restore focus
+      if (previouslyFocused instanceof HTMLElement) {
+        previouslyFocused.focus();
+      }
+    }
+
+    // Focus trap: cycle through focusable elements inside the drawer
+    function trapFocus(event: KeyboardEvent) {
+      if (drawer!.getAttribute("aria-hidden") === "true") return;
+
+      const focusable = drawer!.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.key === "Tab") {
+        if (event.shiftKey) {
+          if (document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    }
+
+    openBtn.addEventListener("click", openDrawer, { signal });
+    closeBtn.addEventListener("click", closeDrawer, { signal });
+    overlay.addEventListener("click", closeDrawer, { signal });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && drawer.getAttribute("aria-hidden") === "false") {
+        closeDrawer();
+      }
+      trapFocus(event);
+    }, { signal });
+
+    // Close drawer when clicking a nav link (for same-page navigation)
+    drawer.querySelectorAll(".mobile-drawer-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        // Small delay so the navigation registers before closing
+        setTimeout(closeDrawer, 150);
+      }, { signal });
+    });
+  }
+
+  // Initialize on first load
+  initDrawer();
+  // Re-initialize after Astro view transitions
+  document.addEventListener("astro:page-load", initDrawer);
+</script>

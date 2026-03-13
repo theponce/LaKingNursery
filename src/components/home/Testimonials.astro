@@ -1,0 +1,70 @@
+---
+/**
+ * Testimonials — Customer reviews displayed in a 3-column grid.
+ * Social proof section with star ratings and customer details.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Card from '../ui/Card.astro';
+import StarRating from '../ui/StarRating.astro';
+
+const testimonials = [
+  {
+    text: "The best nursery in South Texas! The staff is incredibly knowledgeable and always helps me find the perfect plants for my yard.",
+    name: 'Maria G.',
+    location: 'Kingsville',
+    rating: 5,
+  },
+  {
+    text: "La King transformed our backyard into a paradise. Professional, affordable, and they stand behind their work.",
+    name: 'Roberto S.',
+    location: 'Alice',
+    rating: 5,
+  },
+  {
+    text: "I've been coming here for years. Nobody beats their selection of native plants and their prices are fair.",
+    name: 'Sandra M.',
+    location: 'Bishop',
+    rating: 5,
+  },
+];
+---
+
+<section class="reveal bg-cream-50 py-16 md:py-24" aria-labelledby="testimonials-title">
+  <Container>
+    <SectionHeader
+      overline="What Our Customers Say"
+      title="Trusted by Kingsville Families"
+    />
+    <h2 id="testimonials-title" class="sr-only">Customer Testimonials</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-stagger">
+      {testimonials.map((testimonial) => (
+        <Card padding="lg" class="flex flex-col reveal">
+          <!-- Decorative quotation mark -->
+          <span
+            class="font-heading text-6xl text-sage-200 leading-none select-none mb-2"
+            aria-hidden="true"
+          >
+            &ldquo;
+          </span>
+
+          <blockquote class="flex-1">
+            <p class="font-body text-bark-600 italic leading-relaxed mb-6">
+              {testimonial.text}
+            </p>
+          </blockquote>
+
+          <StarRating rating={testimonial.rating} size={16} class="mb-3" />
+
+          <footer class="font-body">
+            <cite class="not-italic">
+              <span class="font-bold text-bark-800">{testimonial.name}</span>
+              <span class="text-bark-400 text-sm ml-1">{testimonial.location}</span>
+            </cite>
+          </footer>
+        </Card>
+      ))}
+    </div>
+  </Container>
+</section>

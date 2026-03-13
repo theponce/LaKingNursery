@@ -1,0 +1,30 @@
+---
+/**
+ * MobileCTA — fixed bottom bar with Call Now / Free Quote on mobile.
+ * Hidden on md+ screens. Sits above the fold with safe-area padding.
+ */
+import { Phone } from "@lucide/astro";
+import { businessInfo } from "@/data/businessInfo";
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-50 flex md:hidden"
+  style="padding-bottom: env(safe-area-inset-bottom, 0px);"
+  role="navigation"
+  aria-label="Quick actions"
+>
+  <a
+    href={businessInfo.phone.href}
+    class="flex h-[60px] flex-1 items-center justify-center gap-2 bg-sage-600 text-sm font-semibold text-white shadow-[0_-2px_8px_rgba(0,0,0,0.12)] transition-colors hover:bg-sage-700 focus:bg-sage-700 active:bg-sage-800"
+    aria-label={`Call La King Nursery at ${businessInfo.phone.display}`}
+  >
+    <Phone class="h-4.5 w-4.5" aria-hidden="true" />
+    <span>Call Now</span>
+  </a>
+  <a
+    href={businessInfo.urls.quote}
+    class="flex h-[60px] flex-1 items-center justify-center gap-2 bg-terra-500 text-sm font-semibold text-white shadow-[0_-2px_8px_rgba(0,0,0,0.12)] transition-colors hover:bg-terra-600 focus:bg-terra-600 active:bg-terra-700"
+  >
+    <span>Free Quote</span>
+  </a>
+</div>

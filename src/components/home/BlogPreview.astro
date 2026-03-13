@@ -1,0 +1,92 @@
+---
+/**
+ * BlogPreview — 3 blog post card placeholders linking to the blog.
+ * Drives engagement and SEO with helpful gardening content.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import { Leaf } from '@lucide/astro';
+
+const blogPosts = [
+  {
+    title: 'What to Plant in March: South Texas Guide',
+    excerpt:
+      'Spring is here and your garden is calling. Discover the best vegetables, flowers, and shrubs to plant this month in Zone 9b.',
+    date: 'March 5, 2026',
+    slug: 'what-to-plant-march-south-texas',
+  },
+  {
+    title: '5 Native Plants That Thrive in the Coastal Bend',
+    excerpt:
+      'Low-maintenance, drought-tolerant, and beautiful. These native Texas plants are perfect for Kingsville landscapes.',
+    date: 'February 20, 2026',
+    slug: '5-native-plants-coastal-bend',
+  },
+  {
+    title: "Beginner's Guide to Drip Irrigation",
+    excerpt:
+      'Save water and keep your plants happy with a simple drip irrigation setup. Here is everything you need to know to get started.',
+    date: 'February 8, 2026',
+    slug: 'beginners-guide-drip-irrigation',
+  },
+];
+---
+
+<section class="reveal py-16 md:py-24" aria-labelledby="blog-title">
+  <Container>
+    <SectionHeader
+      overline="From Our Garden"
+      title="Tips & Inspiration"
+    />
+    <h2 id="blog-title" class="sr-only">Latest Blog Posts</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-stagger">
+      {blogPosts.map((post) => (
+        <Card hover padding="none" class="flex flex-col overflow-hidden reveal">
+          <!-- Image placeholder -->
+          <div
+            class="aspect-video bg-cream-200 flex flex-col items-center justify-center"
+            role="img"
+            aria-label={`Blog post image: ${post.title}`}
+          >
+            <Leaf size={32} class="text-cream-400 mb-1" aria-hidden="true" />
+            <span class="font-body text-cream-500 text-xs font-medium">Blog Photo</span>
+          </div>
+
+          <div class="p-6 flex flex-col flex-1">
+            <time
+              datetime={new Date(post.date).toISOString().split('T')[0]}
+              class="font-body text-xs text-bark-400 uppercase tracking-wider mb-2"
+            >
+              {post.date}
+            </time>
+
+            <h3 class="font-heading text-lg font-bold text-bark-800 mb-2 leading-snug">
+              {post.title}
+            </h3>
+
+            <p class="font-body text-bark-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
+              {post.excerpt}
+            </p>
+
+            <a
+              href={`/blog/${post.slug}/`}
+              class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 hover:text-sage-700 transition-colors text-sm mt-auto group"
+            >
+              Read More
+              <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <Button variant="secondary" href="/blog/">
+        Read Our Blog
+      </Button>
+    </div>
+  </Container>
+</section>

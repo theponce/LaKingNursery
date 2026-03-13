@@ -1,0 +1,314 @@
+---
+/**
+ * Contact — Lead generation page with form, business info sidebar, and map.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Breadcrumbs from '../components/global/Breadcrumbs.astro';
+import Button from '../components/ui/Button.astro';
+import { Phone, MapPin, Clock, Facebook } from '@lucide/astro';
+import { businessInfo } from '../data/businessInfo';
+---
+
+<PageLayout
+  title="Contact Us | Get a Free Quote"
+  description="Contact La King Nursery in Kingsville, TX for a free landscaping quote, plant questions, or garden advice. Call (361) 592-9933 or fill out our online form."
+>
+  <!-- Hero Banner -->
+  <section class="bg-sage-800 py-16 md:py-20" aria-label="Contact page introduction">
+    <Container>
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Contact' },
+        ]}
+      />
+      <div class="max-w-2xl">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          Get In Touch
+        </h1>
+        <p class="font-body text-lg md:text-xl text-sage-200 leading-relaxed">
+          We'd love to hear from you. Request a free quote, ask a question, or just say hello.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Two-Column: Form + Sidebar -->
+  <section class="reveal py-16 md:py-24 bg-cream-50" aria-labelledby="contact-form-heading">
+    <Container>
+      <h2 id="contact-form-heading" class="sr-only">Contact Form and Information</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14">
+        <!-- Left Column: Contact Form -->
+        <div class="lg:col-span-2 reveal-left">
+          <form
+            action="#"
+            method="POST"
+            class="bg-white rounded-xl border border-cream-200 shadow-sm p-6 md:p-8 lg:p-10"
+            novalidate
+          >
+            <h3 class="font-heading text-2xl font-bold text-bark-800 mb-6">
+              Send Us a Message
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <!-- Name -->
+              <div>
+                <label for="contact-name" class="block font-body text-sm font-semibold text-bark-700 mb-2">
+                  Name <span class="text-terra-500" aria-hidden="true">*</span>
+                  <span class="sr-only">(required)</span>
+                </label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  required
+                  autocomplete="name"
+                  placeholder="Your full name"
+                  class="w-full rounded-lg border border-cream-300 bg-cream-50 px-4 py-3 font-body text-bark-800 placeholder:text-bark-300 focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-sage-600 transition-colors"
+                />
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label for="contact-email" class="block font-body text-sm font-semibold text-bark-700 mb-2">
+                  Email <span class="text-terra-500" aria-hidden="true">*</span>
+                  <span class="sr-only">(required)</span>
+                </label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                  placeholder="your@email.com"
+                  class="w-full rounded-lg border border-cream-300 bg-cream-50 px-4 py-3 font-body text-bark-800 placeholder:text-bark-300 focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-sage-600 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <!-- Phone -->
+              <div>
+                <label for="contact-phone" class="block font-body text-sm font-semibold text-bark-700 mb-2">
+                  Phone <span class="text-bark-400 font-normal">(optional but encouraged)</span>
+                </label>
+                <input
+                  type="tel"
+                  id="contact-phone"
+                  name="phone"
+                  autocomplete="tel"
+                  placeholder="(361) 555-0123"
+                  class="w-full rounded-lg border border-cream-300 bg-cream-50 px-4 py-3 font-body text-bark-800 placeholder:text-bark-300 focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-sage-600 transition-colors"
+                />
+              </div>
+
+              <!-- Service Dropdown -->
+              <div>
+                <label for="contact-service" class="block font-body text-sm font-semibold text-bark-700 mb-2">
+                  What are you interested in?
+                </label>
+                <select
+                  id="contact-service"
+                  name="service"
+                  class="w-full rounded-lg border border-cream-300 bg-cream-50 px-4 py-3 font-body text-bark-800 focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-sage-600 transition-colors appearance-none"
+                  style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22%3E%3Cpath fill=%22%236b6259%22 d=%22M2 4l4 4 4-4%22/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 12px;"
+                >
+                  <option value="">Select a service...</option>
+                  <option value="plant-nursery">Plant Nursery</option>
+                  <option value="landscape-design">Landscape Design</option>
+                  <option value="lawn-care">Lawn Care</option>
+                  <option value="irrigation">Irrigation</option>
+                  <option value="hardscaping">Hardscaping</option>
+                  <option value="tree-services">Tree Services</option>
+                  <option value="general-question">General Question</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-6">
+              <label for="contact-message" class="block font-body text-sm font-semibold text-bark-700 mb-2">
+                Message <span class="text-terra-500" aria-hidden="true">*</span>
+                <span class="sr-only">(required)</span>
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                required
+                rows="5"
+                placeholder="Tell us about your project, question, or how we can help..."
+                class="w-full rounded-lg border border-cream-300 bg-cream-50 px-4 py-3 font-body text-bark-800 placeholder:text-bark-300 focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-sage-600 transition-colors resize-y"
+              ></textarea>
+            </div>
+
+            <!-- Honeypot (anti-spam) -->
+            <div class="absolute -left-[9999px]" style="display:none;" aria-hidden="true">
+              <label for="contact-website">Website</label>
+              <input
+                type="text"
+                id="contact-website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Submit -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Button variant="cta" type="submit" class="w-full sm:w-auto">
+                Send Message
+              </Button>
+              <p class="font-body text-xs text-bark-400 leading-snug">
+                We respect your privacy. Your information is never shared.
+                <a href="/privacy/" class="underline hover:text-sage-600 transition-colors">Privacy Policy</a>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column: Contact Info Sidebar -->
+        <div class="lg:col-span-1 reveal-right">
+          <div class="flex flex-col gap-6">
+            <!-- Call Us -->
+            <div class="bg-white rounded-xl border border-cream-200 shadow-sm p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-sage-100 rounded-lg flex items-center justify-center">
+                  <Phone size={20} class="text-sage-600" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 class="font-heading text-lg font-bold text-bark-800 mb-1">Call Us</h3>
+                  <a
+                    href={businessInfo.phone.href}
+                    class="font-body text-xl font-semibold text-sage-600 hover:text-sage-700 transition-colors"
+                  >
+                    {businessInfo.phone.display}
+                  </a>
+                  <p class="font-body text-sm text-bark-400 mt-1">We answer during business hours</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visit Us -->
+            <div class="bg-white rounded-xl border border-cream-200 shadow-sm p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-sage-100 rounded-lg flex items-center justify-center">
+                  <MapPin size={20} class="text-sage-600" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 class="font-heading text-lg font-bold text-bark-800 mb-1">Visit Us</h3>
+                  <address class="font-body text-bark-600 not-italic leading-relaxed">
+                    {businessInfo.address.street}<br />
+                    {businessInfo.address.city}, {businessInfo.address.state} {businessInfo.address.zip}
+                  </address>
+                  <a
+                    href={businessInfo.address.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 font-body text-sm font-semibold text-sage-600 hover:text-sage-700 transition-colors mt-2"
+                  >
+                    Get Directions
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hours -->
+            <div class="bg-white rounded-xl border border-cream-200 shadow-sm p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-sage-100 rounded-lg flex items-center justify-center">
+                  <Clock size={20} class="text-sage-600" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 class="font-heading text-lg font-bold text-bark-800 mb-1">Hours</h3>
+                  <dl class="font-body text-bark-600 space-y-1">
+                    {businessInfo.hours.structured.map((entry) => (
+                      <div class="flex justify-between gap-4">
+                        <dt class="font-medium">{entry.days}</dt>
+                        <dd class={entry.hours === 'Closed' ? 'text-terra-500 font-semibold' : ''}>
+                          {entry.hours}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p class="font-body text-xs text-bark-400 mt-2">Closed on major holidays</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Follow Us -->
+            <div class="bg-white rounded-xl border border-cream-200 shadow-sm p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-sage-100 rounded-lg flex items-center justify-center">
+                  <Facebook size={20} class="text-sage-600" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 class="font-heading text-lg font-bold text-bark-800 mb-1">Follow Us</h3>
+                  <a
+                    href={businessInfo.social.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 font-body text-sm font-semibold text-sage-600 hover:text-sage-700 transition-colors"
+                  >
+                    La King Nursery on Facebook
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Google Maps Section -->
+  <section class="reveal py-16 md:py-20 bg-white" aria-labelledby="map-heading">
+    <Container>
+      <h2 id="map-heading" class="font-heading text-2xl md:text-3xl font-bold text-bark-800 mb-6 text-center">
+        Find Us
+      </h2>
+      <div class="rounded-xl overflow-hidden border border-cream-200 shadow-sm">
+        <iframe
+          title="La King Nursery location on Google Maps"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3536.4!2d-97.8561!3d27.5158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDMwJzU2LjkiTiA5N8KwNTEnMjIuMCJX!5e0!3m2!1sen!2sus!4v1"
+          width="100%"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin"
+          class="aspect-video w-full bg-sage-100"
+        ></iframe>
+      </div>
+    </Container>
+  </section>
+
+  <!-- JSON-LD Structured Data: Local Business -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": businessInfo.name,
+    "telephone": businessInfo.phone.display,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": businessInfo.address.street,
+      "addressLocality": businessInfo.address.city,
+      "addressRegion": businessInfo.address.state,
+      "postalCode": businessInfo.address.zip,
+      "addressCountry": "US",
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "08:00",
+        "closes": "18:00",
+      },
+    ],
+    "url": "https://lakingnursery.com/contact/",
+  })} />
+</PageLayout>

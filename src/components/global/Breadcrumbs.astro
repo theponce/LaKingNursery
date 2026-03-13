@@ -1,0 +1,63 @@
+---
+/**
+ * Breadcrumbs — navigation trail with JSON-LD structured data.
+ *
+ * Props:
+ *   items — array of { label: string, href?: string }
+ *   The last item (no href or with href) is rendered as plain text (current page).
+ */
+import { ChevronRight } from "@lucide/astro";
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+// Build JSON-LD BreadcrumbList schema
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") || "";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.label,
+    ...(item.href ? { item: `${siteUrl}${item.href}` } : {}),
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="py-3">
+  <ol class="flex flex-wrap items-center gap-1 text-sm text-bark-400" role="list">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="inline-flex items-center gap-1">
+          {index > 0 && (
+            <ChevronRight class="h-3.5 w-3.5 text-bark-300" aria-hidden="true" />
+          )}
+          {isLast ? (
+            <span class="font-medium text-bark-600" aria-current="page">
+              {item.label}
+            </span>
+          ) : (
+            <a
+              href={item.href}
+              class="transition-colors hover:text-sage-600 focus:text-sage-600"
+            >
+              {item.label}
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

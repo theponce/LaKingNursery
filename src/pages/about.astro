@@ -1,0 +1,215 @@
+---
+/**
+ * About page — La King Nursery family story, values, and stats.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/ui/Container.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import Breadcrumbs from '../components/global/Breadcrumbs.astro';
+import { Heart, Users, Sprout, Phone } from '@lucide/astro';
+import { businessInfo } from '../data/businessInfo';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'About' },
+];
+
+const values = [
+  {
+    icon: Heart,
+    title: 'Family First',
+    description: 'We treat every customer like family. Your yard is personal, and so is our service.',
+  },
+  {
+    icon: Users,
+    title: 'Community Roots',
+    description: "We're proud to serve Kingsville and the surrounding communities we call home.",
+  },
+  {
+    icon: Sprout,
+    title: 'Growing Together',
+    description: 'From your first seedling to a full landscape transformation, we grow with you.',
+  },
+];
+
+const stats = [
+  { value: '28+', label: 'Years in Business' },
+  { value: '5.0', label: 'Star Rating' },
+  { value: '1000s', label: 'Happy Customers' },
+  { value: '6', label: 'Service Areas' },
+];
+---
+
+<PageLayout
+  title="About Us"
+  description="Learn about La King Nursery — a family-owned nursery serving Kingsville and South Texas since 1998 with quality plants, expert landscaping, and personalized service."
+>
+  <!-- Hero Banner -->
+  <section
+    class="reveal relative bg-gradient-to-br from-sage-900 via-sage-800 to-sage-700 py-20 overflow-hidden"
+    aria-label="About La King Nursery"
+  >
+    <div
+      class="absolute inset-0 opacity-10"
+      style="background-image: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Our Story
+        </h1>
+        <p class="text-lg md:text-xl text-cream-200 leading-relaxed max-w-2xl mx-auto">
+          Family-owned since 1998. Rooted in Kingsville, growing with our community.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <Container>
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <!-- Story Section -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="story-heading">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Text Column -->
+        <div class="reveal-left">
+          <p class="font-body text-sm font-semibold uppercase tracking-widest text-terra-500 mb-3">
+            Our Heritage
+          </p>
+          <h2 id="story-heading" class="font-heading text-3xl md:text-4xl font-bold text-bark-800 mb-6">
+            Rooted in South Texas
+          </h2>
+          <div class="space-y-5 text-bark-600 leading-relaxed">
+            <p>
+              For over 28 years, La King Nursery has been a cornerstone of the Kingsville community.
+              What started as a small family dream in 1998 has grown into South Texas's most trusted
+              source for quality plants, expert landscaping, and honest, personalized service.
+            </p>
+            <p>
+              Founded on the belief that every home deserves a beautiful outdoor space, we've helped
+              thousands of families across the Coastal Bend transform their yards into places of
+              beauty and pride.
+            </p>
+            <p>
+              Our team brings decades of combined experience in horticulture, landscape design, and
+              South Texas growing conditions. We know this soil, we know this climate, and we know
+              what thrives here.
+            </p>
+          </div>
+        </div>
+
+        <!-- Image Placeholder -->
+        <div class="reveal-right">
+          <div class="aspect-[4/3] rounded-2xl bg-sage-100 flex items-center justify-center border border-sage-200">
+            <div class="text-center text-sage-400 px-8">
+              <Sprout size={48} class="mx-auto mb-3" aria-hidden="true" />
+              <p class="font-body text-sm font-medium">La King Nursery — Since 1998</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Values Section -->
+  <section class="reveal py-16 md:py-24 bg-white" aria-labelledby="values-heading">
+    <Container>
+      <SectionHeader
+        overline="What Drives Us"
+        title="Our Values"
+        subtitle="Everything we do is guided by the principles that have defined us for nearly three decades."
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-stagger">
+        {values.map((item) => {
+          const IconComponent = item.icon;
+          return (
+            <div class="reveal text-center p-8 rounded-xl border border-cream-200 bg-cream-50 hover:shadow-md transition-shadow duration-200">
+              <div class="w-16 h-16 rounded-full bg-sage-100 flex items-center justify-center mx-auto mb-5" aria-hidden="true">
+                <IconComponent size={28} class="text-sage-600" />
+              </div>
+              <h3 class="font-heading text-xl font-bold text-bark-800 mb-3">
+                {item.title}
+              </h3>
+              <p class="font-body text-bark-500 leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </Container>
+  </section>
+
+  <!-- By the Numbers -->
+  <section class="reveal py-16 md:py-24 bg-sage-50" aria-labelledby="stats-heading">
+    <Container>
+      <h2 id="stats-heading" class="sr-only">La King Nursery by the numbers</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 reveal-stagger">
+        {stats.map((stat) => (
+          <div class="reveal text-center">
+            <p class="font-heading text-4xl md:text-5xl font-bold text-sage-600 mb-2">
+              {stat.value}
+            </p>
+            <p class="font-body text-bark-500 font-medium text-sm uppercase tracking-wider">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="reveal relative overflow-hidden bg-sage-600 py-20 md:py-28"
+    aria-labelledby="about-cta-heading"
+  >
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 12px);"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          id="about-cta-heading"
+          class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+        >
+          Ready to Work With a Team That Cares?
+        </h2>
+        <p class="font-body text-xl text-sage-100 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Get in touch with our family. Whether you need advice or a full landscape transformation,
+          we're here to help.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center justify-center gap-2 bg-white text-sage-700 font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-cream-50 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone size={20} aria-hidden="true" />
+            Call {businessInfo.phone.display}
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center gap-2 bg-terra-500 text-white font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-terra-600 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Request a Free Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</PageLayout>

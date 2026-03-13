@@ -1,0 +1,22 @@
+---
+/**
+ * SkipLink — accessible skip-to-content link.
+ * Visually hidden until focused, then overlays at the top of the viewport.
+ */
+---
+
+<a
+  href="#main-content"
+  class="
+    fixed top-0 left-0 z-[100]
+    -translate-y-full
+    focus:translate-y-0
+    bg-sage-600 text-white
+    px-6 py-3
+    text-sm font-semibold font-body
+    transition-transform duration-200
+    focus:outline-none focus:ring-2 focus:ring-sage-300 focus:ring-offset-2
+  "
+>
+  Skip to main content
+</a>

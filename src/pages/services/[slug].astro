@@ -1,0 +1,450 @@
+---
+/**
+ * Dynamic service detail page — one page per service using getStaticPaths.
+ */
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Card from '../../components/ui/Card.astro';
+import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
+import { Phone, CheckCircle, Shield, Clock, ThumbsUp } from '@lucide/astro';
+import { services } from '../../data/services';
+import { businessInfo } from '../../data/businessInfo';
+
+export const getStaticPaths = (() => {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}) satisfies GetStaticPaths;
+
+const { service } = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services/' },
+  { label: service.title },
+];
+
+/**
+ * Per-service content: offerings, FAQs.
+ * Keyed by service id.
+ */
+const serviceContent: Record<string, {
+  offerings: string[];
+  faqs: { question: string; answer: string }[];
+}> = {
+  'plant-nursery': {
+    offerings: [
+      'Native South Texas plants adapted to our climate and soil',
+      'Shade trees, ornamental trees, and fruit trees',
+      'Flowering shrubs, hedges, and foundation plants',
+      'Annuals and perennials for seasonal color',
+      'Succulents, cacti, and drought-tolerant varieties',
+      'Indoor and patio houseplants',
+      'Soil, mulch, fertilizers, and gardening supplies',
+      'Expert plant care advice from our horticultural team',
+    ],
+    faqs: [
+      {
+        question: 'What plants grow best in Kingsville and South Texas?',
+        answer: 'South Texas thrives with native and adapted plants like Texas Sage, Esperanza, Turk\'s Cap, Mexican Plum, and Live Oak. Our team can recommend the best varieties for your specific yard conditions including sun exposure, soil type, and water availability.',
+      },
+      {
+        question: 'Do you offer a plant guarantee?',
+        answer: 'Yes! We stand behind the quality of our plants. We offer guidance on proper planting and care to help ensure your plants thrive. Ask our staff about our specific guarantee policy when you visit.',
+      },
+      {
+        question: 'Can you help me choose plants for my yard?',
+        answer: 'Absolutely. Bring in photos of your yard or describe your space, and our knowledgeable staff will recommend plants suited to your soil, sunlight, and watering conditions. We also offer on-site consultations.',
+      },
+      {
+        question: 'Do you carry organic or chemical-free options?',
+        answer: 'We carry a range of organic soils, fertilizers, and pest control options. Just ask our team and we\'ll help you find earth-friendly solutions for your garden.',
+      },
+    ],
+  },
+  'landscape-design': {
+    offerings: [
+      'Custom landscape design for residential and commercial properties',
+      'Full-property master planning and phased installation',
+      'Plant selection tailored to South Texas climate',
+      'Grading, drainage, and site preparation',
+      'Bed design with decorative borders and edging',
+      'Outdoor living spaces including seating areas and fire pits',
+      'Lighting design for ambiance and security',
+      'Xeriscape and water-wise design solutions',
+    ],
+    faqs: [
+      {
+        question: 'How does the landscape design process work?',
+        answer: 'It starts with a free consultation at your property. We discuss your vision, budget, and timeline. Our designer then creates a detailed plan with plant selections and materials. Once approved, our installation crew brings the design to life.',
+      },
+      {
+        question: 'How much does a landscape design cost?',
+        answer: 'Every project is different. Small front yard refreshes may start in the low thousands, while full-property transformations are a larger investment. We provide detailed, transparent quotes after the initial consultation so there are no surprises.',
+      },
+      {
+        question: 'Can you work with my existing landscaping?',
+        answer: 'Absolutely. Many clients want to refresh or enhance their current landscape rather than start from scratch. We can work around existing trees, structures, and plants you want to keep.',
+      },
+      {
+        question: 'Do you handle permits and HOA approvals?',
+        answer: 'We\'re familiar with local regulations and common HOA requirements in the Kingsville area. We can help guide you through any approval process needed for your project.',
+      },
+    ],
+  },
+  'lawn-care': {
+    offerings: [
+      'Professional mowing and edging on a regular schedule',
+      'Fertilization programs designed for South Texas turf',
+      'Weed control and pre-emergent treatments',
+      'Seasonal clean-ups for spring and fall',
+      'Aeration and dethatching for healthier roots',
+      'Sod installation and lawn renovation',
+      'Pest and disease treatment for common lawn issues',
+      'Custom lawn care packages for any budget',
+    ],
+    faqs: [
+      {
+        question: 'What type of grass grows best in South Texas?',
+        answer: 'St. Augustine, Bermuda, and Zoysia are the most common and successful turf grasses in our area. St. Augustine is popular for its shade tolerance, while Bermuda excels in full sun and handles foot traffic well.',
+      },
+      {
+        question: 'How often should my lawn be mowed?',
+        answer: 'During the growing season (March through October), weekly mowing is ideal. In winter months, bi-weekly or as-needed mowing is usually sufficient. We adjust frequency based on grass type and growth rate.',
+      },
+      {
+        question: 'Do you offer one-time services or only contracts?',
+        answer: 'We offer both! While regular maintenance contracts provide the best results and value, we\'re happy to do one-time clean-ups, mowing, or seasonal services as well.',
+      },
+      {
+        question: 'When is the best time to fertilize in South Texas?',
+        answer: 'We typically recommend fertilizing in early spring (March), late spring (May), and early fall (September). Our customized programs are timed specifically for our local climate and your grass type.',
+      },
+    ],
+  },
+  'irrigation': {
+    offerings: [
+      'Custom irrigation system design and installation',
+      'Sprinkler head replacement and zone adjustments',
+      'Drip irrigation for garden beds and landscaping',
+      'Smart controller upgrades for water savings',
+      'System winterization and seasonal adjustments',
+      'Leak detection and pipe repair',
+      'Rain sensor and weather-based controller installation',
+      'Backflow testing and compliance',
+    ],
+    faqs: [
+      {
+        question: 'How much water can a proper irrigation system save?',
+        answer: 'A well-designed irrigation system with a smart controller can reduce water usage by 30-50% compared to manual watering. Drip irrigation is even more efficient for garden beds and specific plant zones.',
+      },
+      {
+        question: 'How often should irrigation systems be inspected?',
+        answer: 'We recommend a full system check at least twice a year — once in spring before heavy use and once in fall. Regular inspections catch leaks, broken heads, and coverage issues before they waste water or damage your landscape.',
+      },
+      {
+        question: 'Can you upgrade my existing sprinkler system?',
+        answer: 'Yes. We frequently upgrade older systems with modern smart controllers, high-efficiency nozzles, and drip zones. Upgrades can dramatically improve coverage while reducing your water bill.',
+      },
+      {
+        question: 'Do you service all brands of irrigation equipment?',
+        answer: 'We work with all major brands including Rain Bird, Hunter, Toro, and Orbit. Whether it\'s a repair, upgrade, or full replacement, we can handle it.',
+      },
+    ],
+  },
+  'hardscaping': {
+    offerings: [
+      'Paver patios and outdoor entertaining areas',
+      'Decorative walkways and garden paths',
+      'Retaining walls for erosion control and aesthetics',
+      'Outdoor kitchens and barbecue areas',
+      'Fire pits and seating walls',
+      'Decorative stonework and natural rock features',
+      'Driveway extensions and borders',
+      'Drainage solutions integrated into hardscape design',
+    ],
+    faqs: [
+      {
+        question: 'What types of pavers work best in South Texas?',
+        answer: 'We recommend interlocking concrete pavers and natural stone options that handle our heat and occasional freezing. Travertine, flagstone, and high-quality concrete pavers are all excellent choices that hold up well in our climate.',
+      },
+      {
+        question: 'How long does a patio or walkway installation take?',
+        answer: 'Most patio projects take 3-7 days depending on size and complexity. Walkways are typically completed in 1-3 days. We provide a detailed timeline during the planning phase so you know exactly what to expect.',
+      },
+      {
+        question: 'Do hardscape features require maintenance?',
+        answer: 'Hardscape is one of the lowest-maintenance investments you can make. Occasional sweeping, rinsing, and polymeric sand replenishment for pavers is typically all that\'s needed. We can also seal surfaces for added protection.',
+      },
+      {
+        question: 'Can you build on sloped or uneven terrain?',
+        answer: 'Absolutely. Retaining walls and proper grading are specialties of ours. We can turn challenging slopes into beautiful, functional tiered spaces with proper drainage.',
+      },
+    ],
+  },
+  'tree-services': {
+    offerings: [
+      'Professional tree trimming and pruning',
+      'Tree removal for dead, damaged, or hazardous trees',
+      'Stump grinding and root removal',
+      'Tree health assessments and disease treatment',
+      'Storm damage clean-up and emergency service',
+      'Tree planting and transplanting',
+      'Crown thinning and canopy management',
+      'Preventative care programs for mature trees',
+    ],
+    faqs: [
+      {
+        question: 'When is the best time to trim trees in South Texas?',
+        answer: 'Late winter (January-February) is ideal for most trees because they\'re dormant. However, dead or hazardous branches should be removed any time of year. Live Oaks should only be trimmed in the hottest or coldest months to avoid oak wilt.',
+      },
+      {
+        question: 'How do I know if a tree needs to be removed?',
+        answer: 'Signs include significant lean, large dead branches, trunk cracks or cavities, root damage, and fungal growth at the base. If you\'re unsure, schedule a free assessment and we\'ll give you an honest evaluation.',
+      },
+      {
+        question: 'Do you handle emergency storm damage?',
+        answer: 'Yes. After major storms, we prioritize emergency calls for fallen trees, hanging branches, and trees threatening structures. Contact us as soon as possible and we\'ll get to you quickly.',
+      },
+      {
+        question: 'Are your tree service workers certified?',
+        answer: 'Our team has extensive training in arboriculture and follows ISA (International Society of Arboriculture) best practices for tree care. We carry full insurance for your protection.',
+      },
+    ],
+  },
+};
+
+const content = serviceContent[service.id] || serviceContent['plant-nursery'];
+
+const benefits = [
+  {
+    icon: Shield,
+    title: 'Licensed & Insured',
+    description: 'Full liability coverage and proper licensing for your peace of mind.',
+  },
+  {
+    icon: Clock,
+    title: 'Reliable & On Time',
+    description: 'We show up when we say we will and finish projects on schedule.',
+  },
+  {
+    icon: ThumbsUp,
+    title: 'Satisfaction Guaranteed',
+    description: 'We stand behind our work with a commitment to your complete satisfaction.',
+  },
+];
+
+// Related services: show up to 2 other services
+const relatedServices = services.filter((s) => s.id !== service.id).slice(0, 2);
+---
+
+<PageLayout
+  title={service.title}
+  description={`${service.description} Professional ${service.title.toLowerCase()} services in Kingsville, TX from La King Nursery.`}
+>
+  <!-- Hero Banner -->
+  <section
+    class="reveal relative bg-gradient-to-br from-sage-900 via-sage-800 to-sage-700 py-20 overflow-hidden"
+    aria-label={service.title}
+  >
+    <div
+      class="absolute inset-0 opacity-10"
+      style="background-image: radial-gradient(circle at 25% 55%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          {service.title}
+        </h1>
+        <p class="text-lg md:text-xl text-cream-200 leading-relaxed max-w-2xl mx-auto">
+          {service.description}
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <Container>
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <!-- What We Offer -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="offerings-heading">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div>
+          <p class="font-body text-sm font-semibold uppercase tracking-widest text-terra-500 mb-3">
+            {service.title}
+          </p>
+          <h2 id="offerings-heading" class="font-heading text-3xl md:text-4xl font-bold text-bark-800 mb-8">
+            What We Offer
+          </h2>
+          <ul class="space-y-4" role="list">
+            {content.offerings.map((item) => (
+              <li class="flex items-start gap-3">
+                <CheckCircle size={20} class="text-sage-500 shrink-0 mt-0.5" aria-hidden="true" />
+                <span class="font-body text-bark-600 leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Image Placeholder -->
+        <div class="reveal-right">
+          <div class="aspect-[4/3] rounded-2xl bg-sage-100 flex items-center justify-center border border-sage-200 sticky top-24">
+            <div class="text-center text-sage-400 px-8">
+              <p class="font-body text-sm font-medium">{service.title} — Photo Coming Soon</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Why Choose La King -->
+  <section class="reveal py-16 md:py-24 bg-white" aria-labelledby="benefits-heading">
+    <Container>
+      <SectionHeader
+        overline="Why La King"
+        title="Why Choose Us"
+        subtitle={`When it comes to ${service.title.toLowerCase()}, experience and trust matter.`}
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-stagger">
+        {benefits.map((benefit) => {
+          const BenefitIcon = benefit.icon;
+          return (
+            <Card hover padding="lg" class="reveal text-center">
+              <div class="w-14 h-14 rounded-xl bg-sage-50 flex items-center justify-center mx-auto mb-4" aria-hidden="true">
+                <BenefitIcon size={28} class="text-sage-600" />
+              </div>
+              <h3 class="font-heading text-lg font-bold text-bark-800 mb-2">
+                {benefit.title}
+              </h3>
+              <p class="font-body text-bark-500 leading-relaxed text-sm">
+                {benefit.description}
+              </p>
+            </Card>
+          );
+        })}
+      </div>
+    </Container>
+  </section>
+
+  <!-- FAQs -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="faq-heading">
+    <Container size="narrow">
+      <SectionHeader
+        overline="Common Questions"
+        title="Frequently Asked Questions"
+        subtitle={`Quick answers about our ${service.title.toLowerCase()} services.`}
+      />
+
+      <div class="space-y-4 reveal-stagger">
+        {content.faqs.map((faq) => (
+          <details class="reveal group bg-white border border-cream-200 rounded-xl overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer px-6 py-5 font-heading text-lg font-semibold text-bark-800 hover:bg-cream-50 transition-colors list-none [&::-webkit-details-marker]:hidden">
+              <span class="pr-4">{faq.question}</span>
+              <span class="shrink-0 w-6 h-6 rounded-full bg-sage-100 text-sage-600 flex items-center justify-center text-sm font-bold transition-transform group-open:rotate-45" aria-hidden="true">
+                +
+              </span>
+            </summary>
+            <div class="px-6 pb-5">
+              <p class="font-body text-bark-500 leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Related Services -->
+  <section class="reveal py-16 md:py-24 bg-sage-50" aria-labelledby="related-heading">
+    <Container>
+      <SectionHeader
+        overline="Explore More"
+        title="Related Services"
+        subtitle="Discover other ways we can help with your outdoor space."
+      />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal-stagger">
+        {relatedServices.map((related) => (
+          <a
+            href={`/services/${related.slug}/`}
+            class="reveal group block bg-white rounded-xl border border-cream-200 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <div class="aspect-video bg-sage-100 flex items-center justify-center border-b border-cream-200">
+              <p class="font-body text-sm text-sage-400 font-medium">Photo coming soon</p>
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading text-xl font-bold text-bark-800 mb-2 group-hover:text-sage-600 transition-colors">
+                {related.title}
+              </h3>
+              <p class="font-body text-bark-500 leading-relaxed text-sm line-clamp-2">
+                {related.description}
+              </p>
+              <span class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 group-hover:text-sage-700 transition-colors text-sm mt-3">
+                Learn More
+                <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="reveal relative overflow-hidden bg-sage-600 py-20 md:py-28"
+    aria-labelledby="service-detail-cta-heading"
+  >
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 12px);"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          id="service-detail-cta-heading"
+          class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+        >
+          Ready to Get Started?
+        </h2>
+        <p class="font-body text-xl text-sage-100 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Contact us today for a free consultation on your {service.title.toLowerCase()} project.
+          We'll provide an honest assessment and transparent pricing.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center justify-center gap-2 bg-white text-sage-700 font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-cream-50 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone size={20} aria-hidden="true" />
+            Call {businessInfo.phone.display}
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center gap-2 bg-terra-500 text-white font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-terra-600 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Request a Free Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</PageLayout>
