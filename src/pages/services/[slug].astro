@@ -10,7 +10,7 @@ import Card from '../../components/ui/Card.astro';
 import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
 import { Phone, CheckCircle, Shield, Clock, ThumbsUp } from '@lucide/astro';
 import { services } from '../../data/services';
-import { businessInfo } from '../../data/businessInfo';
+import { businessInfo, business } from '../../data/businessInfo';
 
 export const getStaticPaths = (() => {
   return services.map((service) => ({
@@ -447,4 +447,39 @@ const relatedServices = services.filter((s) => s.id !== service.id).slice(0, 2);
       </div>
     </Container>
   </section>
+
+  <!-- FAQPage Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": content.faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  })} />
+
+  <!-- Service Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": businessInfo.name,
+      "telephone": businessInfo.phone.display,
+    },
+    "areaServed": business.serviceAreas.map((city) => ({
+      "@type": "Place",
+      "name": city + ", TX",
+    })),
+    "offers": {
+      "@type": "Offer",
+      "description": "Free consultation available",
+    },
+  })} />
 </PageLayout>

@@ -9,7 +9,8 @@ import GalleryPreview from '../components/home/GalleryPreview.astro';
 import ServiceArea from '../components/home/ServiceArea.astro';
 import LeadCapture from '../components/home/LeadCapture.astro';
 import BlogPreview from '../components/home/BlogPreview.astro';
-import { businessInfo } from '../data/businessInfo';
+import { businessInfo, business } from '../data/businessInfo';
+import { services } from '../data/services';
 ---
 
 <PageLayout
@@ -25,4 +26,62 @@ import { businessInfo } from '../data/businessInfo';
   <ServiceArea />
   <LeadCapture />
   <BlogPreview />
+
+  <!-- LocalBusiness Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "GardenStore"],
+    "name": businessInfo.name,
+    "description": businessInfo.description,
+    "url": "https://lakingnursery.com",
+    "telephone": businessInfo.phone.display,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": businessInfo.address.street,
+      "addressLocality": businessInfo.address.city,
+      "addressRegion": businessInfo.address.state,
+      "postalCode": businessInfo.address.zip,
+      "addressCountry": "US",
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 27.5069,
+      "longitude": -97.8547,
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": business.rating,
+      "reviewCount": business.reviewCount,
+      "bestRating": 5,
+    },
+    "areaServed": business.serviceAreas.map((city) => ({
+      "@type": "Place",
+      "name": city + ", TX",
+    })),
+    "sameAs": [businessInfo.social.facebook],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "08:00",
+        "closes": "18:00",
+      },
+    ],
+    "priceRange": "$$",
+    "image": "https://lakingnursery.com/og-image.jpg",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "La King Nursery Services",
+      "itemListElement": services.map((svc) => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": svc.title,
+          "description": svc.description,
+          "url": "https://lakingnursery.com/services/" + svc.slug + "/",
+        },
+      })),
+    },
+    "foundingDate": String(businessInfo.established),
+  })} />
 </PageLayout>
