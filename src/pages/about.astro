@@ -7,6 +7,7 @@ import Container from '../components/ui/Container.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Button from '../components/ui/Button.astro';
 import Breadcrumbs from '../components/global/Breadcrumbs.astro';
+import YouTubeFacade from '../components/ui/YouTubeFacade.astro';
 import { Heart, Users, Sprout, Phone } from '@lucide/astro';
 import { businessInfo } from '../data/businessInfo';
 
@@ -104,14 +105,13 @@ const stats = [
           </div>
         </div>
 
-        <!-- Image Placeholder -->
+        <!-- Nursery Tour Video -->
         <div class="reveal-right">
-          <div class="aspect-[4/3] rounded-2xl bg-sage-100 flex items-center justify-center border border-sage-200">
-            <div class="text-center text-sage-400 px-8">
-              <Sprout size={48} class="mx-auto mb-3" aria-hidden="true" />
-              <p class="font-body text-sm font-medium">La King Nursery — Since 1998</p>
-            </div>
-          </div>
+          <YouTubeFacade
+            videoId="j_AAf_VpJcw"
+            title="Walk through La King Nursery in Kingsville, TX — plants, trees, and garden supplies for South Texas"
+            aspect="4/3"
+          />
         </div>
       </div>
     </Container>

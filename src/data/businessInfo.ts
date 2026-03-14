@@ -34,7 +34,7 @@ export const businessInfo = {
   },
 
   social: {
-    facebook: "https://www.facebook.com/LaKingNursery",
+    facebook: "https://www.facebook.com/p/La-King-Nursery-100057242960913/",
   },
 
   urls: {

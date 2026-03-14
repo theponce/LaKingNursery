@@ -1,0 +1,82 @@
+---
+/**
+ * YouTubeFacade — Lightweight click-to-play YouTube embed.
+ * Renders a thumbnail with play button; loads iframe only on interaction.
+ * Keeps Lighthouse scores clean by deferring YouTube's ~800KB payload.
+ */
+export interface Props {
+  videoId: string;
+  title: string;
+  aspect?: 'video' | '4/3' | 'square';
+  class?: string;
+}
+
+const {
+  videoId,
+  title,
+  aspect = 'video',
+  class: className = '',
+} = Astro.props;
+
+const aspectClasses: Record<string, string> = {
+  'video': 'aspect-video',
+  '4/3': 'aspect-[4/3]',
+  'square': 'aspect-square',
+};
+---
+
+<div
+  class:list={[
+    'yt-facade relative overflow-hidden rounded-2xl bg-bark-900 group cursor-pointer',
+    aspectClasses[aspect],
+    className,
+  ]}
+  data-video-id={videoId}
+  role="button"
+  tabindex="0"
+  aria-label={`Play video: ${title}`}
+>
+  <img
+    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+    alt={title}
+    class="w-full h-full object-cover group-hover:opacity-80 transition-opacity duration-300"
+    loading="lazy"
+    width="1280"
+    height="720"
+  />
+  <!-- Play button overlay -->
+  <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-terra-500/90 flex items-center justify-center shadow-lg group-hover:bg-terra-600 group-hover:scale-110 transition-all duration-300">
+      <svg class="w-6 h-6 md:w-8 md:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.yt-facade').forEach((el) => {
+    function activate() {
+      const id = el.dataset.videoId;
+      const label = el.getAttribute('aria-label')?.replace('Play video: ', '') || '';
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = label;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'absolute inset-0 w-full h-full';
+      el.innerHTML = '';
+      el.classList.remove('cursor-pointer');
+      el.removeAttribute('role');
+      el.removeAttribute('tabindex');
+      el.appendChild(iframe);
+    }
+    el.addEventListener('click', activate);
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activate();
+      }
+    });
+  });
+</script>
