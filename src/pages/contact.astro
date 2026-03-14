@@ -155,9 +155,12 @@ import { businessInfo } from '../data/businessInfo';
               />
             </div>
 
+            <!-- Status Message -->
+            <div id="form-status" class="hidden rounded-lg px-4 py-3 font-body text-sm font-semibold" role="alert"></div>
+
             <!-- Submit -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Button variant="cta" type="submit" class="w-full sm:w-auto">
+              <Button variant="cta" type="submit" id="form-submit" class="w-full sm:w-auto">
                 Send Message
               </Button>
               <p class="font-body text-xs text-bark-400 leading-snug">
@@ -311,4 +314,47 @@ import { businessInfo } from '../data/businessInfo';
     ],
     "url": "https://lakingnursery.com/contact/",
   })} />
+  <script>
+    const form = document.querySelector<HTMLFormElement>('form[action*="formspree"]');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('form-submit') as HTMLButtonElement;
+        const status = document.getElementById('form-status')!;
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        status.className = 'hidden';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        })
+          .then(function (response) {
+            if (response.ok) {
+              status.textContent =
+                "Thank you! Your message has been sent. We'll be in touch within 24 hours.";
+              status.className =
+                'rounded-lg px-4 py-3 font-body text-sm font-semibold text-sage-800 bg-sage-50 border border-sage-200';
+              form.reset();
+            } else {
+              status.textContent =
+                'Something went wrong. Please call us at (361) 228-5193.';
+              status.className =
+                'rounded-lg px-4 py-3 font-body text-sm font-semibold text-terra-700 bg-terra-50 border border-terra-200';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Send Message';
+          })
+          .catch(function () {
+            status.textContent =
+              'Connection error. Please call us at (361) 228-5193.';
+            status.className =
+              'rounded-lg px-4 py-3 font-body text-sm font-semibold text-terra-700 bg-terra-50 border border-terra-200';
+            btn.disabled = false;
+            btn.textContent = 'Send Message';
+          });
+      });
+    }
+  </script>
 </PageLayout>
