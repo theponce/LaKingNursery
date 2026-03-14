@@ -165,4 +165,4 @@ The window for summer lawn prep in South Texas is short. By the time you feel th
 
 ---
 
-**Have questions about your specific lawn situation?** [Contact us](/contact/) or stop by La King Nursery at **1220 S US Highway 77 Bypass in Kingsville**. We are always happy to talk grass.
+**Have questions about your specific lawn situation?** [Contact us](/contact/) or stop by La King Nursery at **1304 E Kennedy in Kingsville**. We are always happy to talk grass.

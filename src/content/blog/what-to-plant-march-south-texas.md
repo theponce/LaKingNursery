@@ -125,7 +125,7 @@ While rare, South Texas can get a surprise cold front into mid-March. Keep frost
 
 March is the sweet spot for South Texas gardening — warm enough to plant almost anything, cool enough that new transplants are not immediately stressed. Make the most of it.
 
-Visit La King Nursery at **1220 S US Highway 77 Byp in Kingsville** to browse our full spring inventory of vegetables, herbs, flowers, trees, and shrubs. Our staff has been helping South Texas gardeners grow since 1998, and we are happy to answer your questions and help you choose what works for your yard.
+Visit La King Nursery at **1304 E Kennedy in Kingsville** to browse our full spring inventory of vegetables, herbs, flowers, trees, and shrubs. Our staff has been helping South Texas gardeners grow since 1998, and we are happy to answer your questions and help you choose what works for your yard.
 
 Have a bigger project in mind? We also offer [landscape design and installation](/services/landscape-design/) and [lawn care services](/services/lawn-care/) to help you get the outdoor space you have been dreaming about.
 

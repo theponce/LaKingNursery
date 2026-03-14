@@ -162,7 +162,7 @@ You do not have to go all-native overnight. Start by replacing one thirsty, high
 
 We grow and source native plants specifically selected for the Kingsville area and Coastal Bend. Our staff can help you choose the right species for your soil type, sun exposure, and the look you are going for.
 
-Visit us at **1220 S US Highway 77 Byp in Kingsville**, Monday through Saturday, 8 AM to 6 PM. Or [get in touch](/contact/) to ask about current availability and get advice for your project.
+Visit us at **1304 E Kennedy in Kingsville**, Monday through Saturday, 8 AM to 6 PM. Or [get in touch](/contact/) to ask about current availability and get advice for your project.
 
 ---
 
