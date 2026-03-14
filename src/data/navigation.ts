@@ -20,10 +20,10 @@ export const mainNav: NavItem[] = [
 
 /** Service links for the footer services column. */
 export const serviceLinks: NavItem[] = [
+  { label: "Plant Nursery", href: "/services/plant-nursery/" },
   { label: "Landscape Design", href: "/services/landscape-design/" },
+  { label: "Lawn Care", href: "/services/lawn-care/" },
   { label: "Irrigation Systems", href: "/services/irrigation/" },
-  { label: "Tree Trimming", href: "/services/tree-trimming/" },
-  { label: "Sod Installation", href: "/services/sod-installation/" },
-  { label: "Garden Consultation", href: "/services/consultation/" },
-  { label: "Outdoor Lighting", href: "/services/outdoor-lighting/" },
+  { label: "Hardscaping & Pavers", href: "/services/hardscaping/" },
+  { label: "Tree Services", href: "/services/tree-services/" },
 ];
