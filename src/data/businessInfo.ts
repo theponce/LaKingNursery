@@ -11,18 +11,18 @@ export const businessInfo = {
   established: 1998,
 
   phone: {
-    display: "(361) 592-9933",
-    href: "tel:+13615929933",
+    display: "(361) 228-5193",
+    href: "tel:+13612285193",
   },
 
   address: {
-    street: "1220 S US Highway 77 Byp",
+    street: "1304 E Kennedy",
     city: "Kingsville",
     state: "TX",
     zip: "78363",
-    full: "1220 S US Highway 77 Byp, Kingsville, TX 78363",
+    full: "1304 E Kennedy, Kingsville, TX 78363",
     googleMapsUrl:
-      "https://maps.google.com/?q=La+King+Nursery+Kingsville+TX",
+      "https://maps.google.com/?q=1304+E+Kennedy+Kingsville+TX+78363",
   },
 
   hours: {
