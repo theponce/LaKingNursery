@@ -1,0 +1,296 @@
+---
+/**
+ * Dynamic service area (city) landing page — one page per city
+ * using getStaticPaths. Generates /service-area/[slug]-tx/ routes.
+ */
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Card from '../../components/ui/Card.astro';
+import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
+import {
+  Phone,
+  MapPin,
+  Clock,
+  Car,
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+} from '@lucide/astro';
+import { serviceAreas } from '../../data/serviceAreas';
+import { services } from '../../data/services';
+import { businessInfo } from '../../data/businessInfo';
+
+export const getStaticPaths = (() => {
+  return serviceAreas.map((city) => ({
+    params: { slug: city.slug + '-tx' },
+    props: { city },
+  }));
+}) satisfies GetStaticPaths;
+
+const { city } = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Service Areas', href: '/service-area/' },
+  { label: `${city.name}, TX` },
+];
+
+const iconMap: Record<string, any> = {
+  Flower2,
+  PencilRuler,
+  Scissors,
+  Droplets,
+  Fence,
+  TreeDeciduous,
+};
+---
+
+<PageLayout
+  title={city.metaTitle}
+  description={city.metaDescription}
+>
+  <!-- Hero Banner -->
+  <section
+    class="reveal relative bg-gradient-to-br from-sage-900 via-sage-800 to-sage-700 py-20 overflow-hidden"
+    aria-label={`${city.name} Service Area`}
+  >
+    <div
+      class="absolute inset-0 opacity-10"
+      style="background-image: radial-gradient(circle at 25% 55%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          {city.heroHeading}
+        </h1>
+        <p class="text-lg md:text-xl text-cream-200 leading-relaxed max-w-2xl mx-auto">
+          {city.tagline} — {city.driveDistance === "Home base" ? "right here in Kingsville" : `just ${city.driveTime} from our Kingsville nursery`}.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <Container>
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <!-- Intro Content + Info Card -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="city-intro-heading">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-start">
+        <!-- Left: Intro Content (2/3) -->
+        <div class="lg:col-span-2 reveal-left">
+          <p class="font-body text-sm font-semibold uppercase tracking-widest text-terra-500 mb-3">
+            {city.name}, Texas
+          </p>
+          <h2 id="city-intro-heading" class="font-heading text-3xl md:text-4xl font-bold text-bark-800 mb-8">
+            Professional Nursery &amp; Landscaping
+          </h2>
+          <div class="font-body text-bark-600 leading-relaxed space-y-4 [&>p]:mb-4" set:html={city.content.intro} />
+        </div>
+
+        <!-- Right: Info Card (1/3) -->
+        <div class="reveal-right">
+          <div class="bg-white rounded-xl border border-cream-200 shadow-sm p-6 sticky top-24 space-y-5">
+            <h3 class="font-heading text-lg font-bold text-bark-800">Quick Info</h3>
+
+            <!-- Drive Time -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-sage-100 flex items-center justify-center shrink-0">
+                <Car size={20} class="text-sage-600" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-bark-700">Drive Time</p>
+                <p class="font-body text-sm text-bark-500">{city.driveTime} from our nursery</p>
+              </div>
+            </div>
+
+            <!-- Distance -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-sage-100 flex items-center justify-center shrink-0">
+                <MapPin size={20} class="text-sage-600" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-bark-700">Distance</p>
+                <p class="font-body text-sm text-bark-500">{city.driveDistance} from Kingsville</p>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-sage-100 flex items-center justify-center shrink-0">
+                <MapPin size={20} class="text-sage-600" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-bark-700">Our Location</p>
+                <a
+                  href={businessInfo.address.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-body text-sm text-sage-600 hover:text-sage-700 transition-colors hover:underline"
+                >
+                  {businessInfo.address.full}
+                </a>
+              </div>
+            </div>
+
+            <!-- Hours -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-sage-100 flex items-center justify-center shrink-0">
+                <Clock size={20} class="text-sage-600" aria-hidden="true" />
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-bark-700">Hours</p>
+                {businessInfo.hours.structured.map((entry) => (
+                  <p class="font-body text-sm text-bark-500">
+                    <span class="font-medium text-bark-600">{entry.days}:</span>{' '}
+                    {entry.hours}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <a
+              href={businessInfo.phone.href}
+              class="flex items-center justify-center gap-2 w-full bg-sage-600 text-white font-body font-semibold rounded-lg px-6 py-3 text-sm shadow-sm hover:bg-sage-700 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage-500"
+            >
+              <Phone size={16} aria-hidden="true" />
+              Call {businessInfo.phone.display}
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Local Details -->
+  <section class="reveal py-16 md:py-24 bg-white" aria-labelledby="local-details-heading">
+    <Container size="narrow">
+      <h2 id="local-details-heading" class="sr-only">Local Details for {city.name}</h2>
+      <div class="font-body text-bark-600 leading-relaxed [&>h3]:font-heading [&>h3]:text-2xl [&>h3]:md:text-3xl [&>h3]:font-bold [&>h3]:text-bark-800 [&>h3]:mb-6 [&>p]:mb-4" set:html={city.content.localDetails} />
+    </Container>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="city-services-heading">
+    <Container>
+      <SectionHeader
+        overline="What We Offer"
+        title={`Our Services in ${city.name}`}
+        subtitle={`From plants and design to maintenance and hardscaping, we bring our full range of services to ${city.name}.`}
+      />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-stagger">
+        {services.map((service) => {
+          const IconComponent = iconMap[service.icon];
+          return (
+            <a
+              href={`/services/${service.slug}/`}
+              class="reveal group block"
+            >
+              <Card hover padding="lg" class="h-full">
+                <div class="w-12 h-12 rounded-xl bg-sage-50 flex items-center justify-center mb-4 group-hover:bg-sage-100 transition-colors" aria-hidden="true">
+                  {IconComponent && <IconComponent size={24} class="text-sage-600" />}
+                </div>
+                <h3 class="font-heading text-lg font-bold text-bark-800 mb-2 group-hover:text-sage-600 transition-colors">
+                  {service.title}
+                </h3>
+                <p class="font-body text-bark-500 leading-relaxed text-sm line-clamp-3">
+                  {service.description}
+                </p>
+                <span class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 group-hover:text-sage-700 transition-colors text-sm mt-3">
+                  Learn More
+                  <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+                </span>
+              </Card>
+            </a>
+          );
+        })}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="reveal py-16 md:py-24 bg-sage-50" aria-labelledby="why-us-heading">
+    <Container size="narrow">
+      <h2 id="why-us-heading" class="sr-only">Why Choose La King Nursery in {city.name}</h2>
+      <div class="font-body text-bark-600 leading-relaxed [&>h3]:font-heading [&>h3]:text-2xl [&>h3]:md:text-3xl [&>h3]:font-bold [&>h3]:text-bark-800 [&>h3]:mb-6 [&>p]:mb-4" set:html={city.content.whyUs} />
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="reveal relative overflow-hidden bg-sage-600 py-20 md:py-28"
+    aria-labelledby="city-cta-heading"
+  >
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 12px);"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          id="city-cta-heading"
+          class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+        >
+          Serving {city.name} with Pride
+        </h2>
+        <p class="font-body text-xl text-sage-100 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Contact La King Nursery today for a free consultation. We'll discuss your project and show you why South Texas trusts us with their outdoor spaces.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center justify-center gap-2 bg-white text-sage-700 font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-cream-50 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone size={20} aria-hidden="true" />
+            Call {businessInfo.phone.display}
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center gap-2 bg-terra-500 text-white font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-terra-600 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Request a Free Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- LocalBusiness Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": businessInfo.name,
+    "telephone": businessInfo.phone.display,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": businessInfo.address.street,
+      "addressLocality": businessInfo.address.city,
+      "addressRegion": businessInfo.address.state,
+      "postalCode": businessInfo.address.zip,
+      "addressCountry": "US",
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": city.name + ", TX",
+    },
+    "url": "https://lakingnursery.com/service-area/" + city.slug + "-tx/",
+  })} />
+</PageLayout>

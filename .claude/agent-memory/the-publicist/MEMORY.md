@@ -30,10 +30,22 @@
 - No unverifiable claims; no emojis in content files
 
 ## Business Details
-- Address: 1220 S US Highway 77 Byp, Kingsville, TX 78363
-- Phone: (361) 592-9933
+- Address: 1304 E Kennedy, Kingsville, TX 78363
+- Phone: (361) 228-5193
 - Hours: Mon-Sat 8AM-6PM, Sunday Closed
+- Facebook: https://www.facebook.com/p/La-King-Nursery-100057242960913/
 - Service areas: Kingsville, Alice, Bishop, Riviera, Robstown, Falfurrias, Premont, San Diego
+
+## Service Area Pages
+- Data file: `src/data/serviceAreas.ts` — 8 cities with unique content, `ServiceAreaCity` interface
+- Hub page: `src/pages/service-area/index.astro`
+- City page template: `src/pages/service-area/[slug].astro` — generates `/service-area/[slug]-tx/` routes
+- Cities: Kingsville (0 min), Alice (25 min), Bishop (15 min), Riviera (25 min), Robstown (35 min), Falfurrias (45 min), Premont (30 min), San Diego (45 min)
+- Each city has unique intro, localDetails (soil/climate), whyUs content — no duplicated template text
+- Content uses HTML tags for `set:html` rendering, includes internal links to `/contact/`
+
+## Docs / Guides Written
+- `docs/GOOGLE-BUSINESS-PROFILE.md` — Full GBP setup and optimization guide (claiming, profile, services, products, photos, Q&A, posts, reviews)
 
 ## Articles Written
 1. `what-to-plant-march-south-texas.md` — March planting guide, featured, 2026-03-01

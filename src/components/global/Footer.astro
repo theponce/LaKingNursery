@@ -2,13 +2,13 @@
 /**
  * Footer — site-wide footer with brand info, links, contact, and newsletter.
  *
- * 4-column grid (collapses on mobile):
- *   1. Brand + tagline  2. Quick Links  3. Services  4. Contact
+ * 5-column grid (collapses on mobile):
+ *   1. Brand + tagline  2. Quick Links  3. Services  4. Service Areas  5. Contact
  * Newsletter signup row beneath. Copyright bar at the bottom.
  */
 import { Phone, MapPin, Clock, Facebook } from "@lucide/astro";
 import { businessInfo } from "@/data/businessInfo";
-import { mainNav, serviceLinks } from "@/data/navigation";
+import { mainNav, serviceLinks, serviceAreaLinks } from "@/data/navigation";
 
 const currentYear = new Date().getFullYear();
 ---
@@ -16,7 +16,7 @@ const currentYear = new Date().getFullYear();
 <footer class="bg-sage-800 text-cream-100" role="contentinfo">
   <!-- ─── Main Footer Grid ─── -->
   <div class="mx-auto max-w-7xl px-4 pt-14 pb-10 lg:pt-16 lg:pb-12">
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
       <!-- Column 1: Brand -->
       <div class="sm:col-span-2 lg:col-span-1">
         <a href="/" class="group inline-flex items-center gap-2" aria-label={`${businessInfo.name} — Home`}>
@@ -70,7 +70,24 @@ const currentYear = new Date().getFullYear();
         </ul>
       </div>
 
-      <!-- Column 4: Contact Info -->
+      <!-- Column 4: Service Areas -->
+      <div>
+        <h3 class="font-heading text-base font-semibold text-white">Service Areas</h3>
+        <ul class="mt-4 space-y-2.5" role="list">
+          {serviceAreaLinks.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-sm text-cream-300 transition-colors hover:text-cream-100 focus:text-cream-100"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 5: Contact Info -->
       <div>
         <h3 class="font-heading text-base font-semibold text-white">Contact Us</h3>
         <ul class="mt-4 space-y-4" role="list">

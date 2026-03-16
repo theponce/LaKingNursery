@@ -27,3 +27,15 @@ export const serviceLinks: NavItem[] = [
   { label: "Hardscaping & Pavers", href: "/services/hardscaping/" },
   { label: "Tree Services", href: "/services/tree-services/" },
 ];
+
+/** Service area links for the footer. */
+export const serviceAreaLinks: NavItem[] = [
+  { label: "Kingsville", href: "/service-area/kingsville-tx/" },
+  { label: "Alice", href: "/service-area/alice-tx/" },
+  { label: "Bishop", href: "/service-area/bishop-tx/" },
+  { label: "Riviera", href: "/service-area/riviera-tx/" },
+  { label: "Robstown", href: "/service-area/robstown-tx/" },
+  { label: "Falfurrias", href: "/service-area/falfurrias-tx/" },
+  { label: "Premont", href: "/service-area/premont-tx/" },
+  { label: "San Diego", href: "/service-area/san-diego-tx/" },
+];

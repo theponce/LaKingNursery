@@ -1,0 +1,165 @@
+---
+/**
+ * Service Area hub page — lists all service area cities with cards
+ * linking to individual city landing pages.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import Card from '../../components/ui/Card.astro';
+import Breadcrumbs from '../../components/global/Breadcrumbs.astro';
+import { MapPin, Clock, Phone } from '@lucide/astro';
+import { serviceAreas } from '../../data/serviceAreas';
+import { businessInfo } from '../../data/businessInfo';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Service Areas' },
+];
+---
+
+<PageLayout
+  title="Service Areas"
+  description="La King Nursery serves Kingsville, Alice, Bishop, Riviera, Robstown, Falfurrias, Premont, and San Diego, TX with expert nursery and landscaping services."
+>
+  <!-- Hero Banner -->
+  <section
+    class="reveal relative bg-gradient-to-br from-sage-900 via-sage-800 to-sage-700 py-20 overflow-hidden"
+    aria-label="Service Areas"
+  >
+    <div
+      class="absolute inset-0 opacity-10"
+      style="background-image: radial-gradient(circle at 20% 60%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 75% 25%, rgba(255,255,255,0.1) 0%, transparent 40%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          Our Service Areas
+        </h1>
+        <p class="text-lg md:text-xl text-cream-200 leading-relaxed max-w-2xl mx-auto">
+          Proudly serving South Texas communities within a 50-mile radius of Kingsville. Quality plants, expert landscaping, and personalized care — wherever you call home.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <Container>
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <!-- City Cards Grid -->
+  <section class="reveal py-16 md:py-24" aria-labelledby="cities-heading">
+    <Container>
+      <SectionHeader
+        overline="Communities We Serve"
+        title="Find Us Near You"
+        subtitle="From our Kingsville home base, we bring expert nursery and landscaping services to communities across South Texas."
+      />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal-stagger">
+        {serviceAreas.map((city) => (
+          <a
+            href={`/service-area/${city.slug}-tx/`}
+            class="reveal group block bg-white rounded-xl border border-cream-200 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <!-- Map Pin Icon Area -->
+            <div class="bg-sage-50 px-6 pt-6 pb-4 flex items-center justify-between border-b border-cream-200">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center group-hover:bg-sage-200 transition-colors">
+                  <MapPin size={20} class="text-sage-600" aria-hidden="true" />
+                </div>
+                <h2 class="font-heading text-xl font-bold text-bark-800 group-hover:text-sage-600 transition-colors">
+                  {city.name}
+                </h2>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full bg-terra-100 px-2.5 py-1 text-xs font-semibold text-terra-700">
+                <Clock size={12} aria-hidden="true" />
+                {city.driveTime}
+              </span>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6">
+              <p class="font-body text-bark-500 leading-relaxed text-sm mb-4">
+                {city.tagline}
+              </p>
+              <span class="inline-flex items-center gap-1 font-body font-semibold text-sage-600 group-hover:text-sage-700 transition-colors text-sm">
+                View Details
+                <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Service Area Info -->
+  <section class="reveal py-16 md:py-24 bg-white" aria-labelledby="area-info-heading">
+    <Container size="narrow">
+      <SectionHeader
+        overline="Coverage"
+        title="50-Mile Service Radius"
+        subtitle="We travel throughout South Texas to bring our expertise to your property."
+      />
+
+      <div class="reveal text-center">
+        <p class="font-body text-bark-500 leading-relaxed mb-4">
+          La King Nursery is based in Kingsville, TX and provides nursery, landscaping, lawn care, irrigation, hardscaping, and tree services to communities across the region. Whether you're down the street or across the county, we deliver the same quality and care to every project.
+        </p>
+        <p class="font-body text-bark-500 leading-relaxed">
+          Don't see your city listed? Contact us — we may still serve your area.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="reveal relative overflow-hidden bg-sage-600 py-20 md:py-28"
+    aria-labelledby="service-area-cta-heading"
+  >
+    <div
+      class="absolute inset-0 opacity-[0.06]"
+      style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,1) 10px, rgba(255,255,255,1) 12px);"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-0 opacity-20"
+      style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <Container class="relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          id="service-area-cta-heading"
+          class="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+        >
+          Ready to Transform Your Outdoor Space?
+        </h2>
+        <p class="font-body text-xl text-sage-100 leading-relaxed mb-10 max-w-2xl mx-auto">
+          No matter where you are in South Texas, we bring the same quality, care, and expertise to your project. Contact us for a free consultation.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href={businessInfo.phone.href}
+            class="inline-flex items-center justify-center gap-2 bg-white text-sage-700 font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-cream-50 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Phone size={20} aria-hidden="true" />
+            Call {businessInfo.phone.display}
+          </a>
+          <a
+            href="/contact/"
+            class="inline-flex items-center justify-center gap-2 bg-terra-500 text-white font-body font-semibold rounded-lg px-8 py-4 text-lg shadow-md hover:shadow-lg hover:bg-terra-600 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Request a Free Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</PageLayout>
